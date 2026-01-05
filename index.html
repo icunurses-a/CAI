@@ -3,413 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LABORATORY FINAL</title>
+    <title>Laboratory Final Exam</title>
     <style>
+        /* --- CORE VARIABLES & RESET --- */
         :root {
-            --gold: #d4af37;
-            --gold-light: #f3e5ab;
-            --gold-dark: #aa8c2c;
-            --black: #050505;
-            --dark-grey: #1a1a1a;
-            --green: #2ecc71;
-            --red: #e74c3c;
-            --glass: rgba(20, 20, 20, 0.9);
-        }
-
-        /* Global Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
+            --gold-base: #D4AF37;
+            --gold-light: #F9E59E;
+            --gold-dark: #AA8A2E;
+            --bg-dark: #0f0f0f;
+            --bg-panel: #1a1a1a;
+            --text-main: #ffffff;
+            --accent-red: #ff4d4d;
+            --accent-green: #4dff4d;
+            --font-display: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             user-select: none;
-            -webkit-user-select: none;
+            -webkit-user-drag: none;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Cinzel', 'Segoe UI', serif;
-            background-color: var(--black);
-            background-image: radial-gradient(circle at 50% 50%, #222 0%, #000 100%);
-            color: var(--gold);
-            overflow: hidden; /* App-like feel, scroll internal containers instead */
-            height: 100vh;
-            width: 100vw;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-display);
+            overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- Animations --- */
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        /* --- GOLD & RGB EFFECTS --- */
+        .gold-text {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-base), var(--gold-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            text-shadow: 0px 2px 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .shaky-dancy {
+            display: inline-block;
+            animation: shaky-dancy 0.5s infinite alternate;
+        }
+
+        .rgb-text {
+            font-weight: 900;
+            font-size: 1.2em;
+            background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff, #ff0000);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rgb-flow 3s linear infinite;
+        }
+
+        .wavy-rgb {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            animation: wavy-anim 2s ease-in-out infinite;
+        }
+
+        @keyframes shaky-dancy {
+            0% { transform: skewX(-10deg) rotate(-2deg); filter: hue-rotate(0deg); }
+            25% { transform: skewX(10deg) rotate(2deg); filter: hue-rotate(90deg); }
+            50% { transform: skewX(-5deg) scale(1.1); filter: hue-rotate(180deg); }
+            75% { transform: skewX(5deg) scale(1.1); filter: hue-rotate(270deg); }
+            100% { transform: skewX(0deg) rotate(0deg); filter: hue-rotate(360deg); }
         }
 
         @keyframes rgb-flow {
-            0% { color: #ff0000; text-shadow: 0 0 10px #ff0000, 2px 2px 0px #000; }
-            25% { color: #00ff00; text-shadow: 0 0 10px #00ff00, 2px 2px 0px #000; }
-            50% { color: #0000ff; text-shadow: 0 0 10px #0000ff, 2px 2px 0px #000; }
-            75% { color: #ffff00; text-shadow: 0 0 10px #ffff00, 2px 2px 0px #000; }
-            100% { color: #00ffff; text-shadow: 0 0 10px #00ffff, 2px 2px 0px #000; }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        @keyframes wavy {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        @keyframes wavy-anim {
+            0%, 100% { transform: translateY(0) scale(1); letter-spacing: 2px; }
+            50% { transform: translateY(-5px) scale(1.1); letter-spacing: 4px; text-shadow: 2px 2px #ff00ff; }
         }
 
-        /* --- Title Styles --- */
-        .main-title {
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .final-text {
-            display: inline-block;
-            animation: shake 0.5s infinite, rgb-flow 2s infinite alternate;
-            font-weight: 900;
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.8);
-            padding: 0 10px;
-        }
-
-        /* --- Gold Design Elements --- */
-        .gold-text {
-            background: linear-gradient(to right, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .gold-border {
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 10px var(--gold-dark), inset 0 0 5px var(--gold-dark);
-            border-radius: 8px;
-        }
-
-        .gold-btn {
-            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
-            border: 1px solid #fff;
-            color: #000;
-            padding: 10px 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px var(--gold-dark);
-            border-radius: 4px;
-        }
-
-        .gold-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px var(--gold);
-        }
-
-        .gold-btn:active {
-            transform: scale(0.95);
-        }
-
-        .red-btn {
-            background: linear-gradient(135deg, #800, #f00, #800);
-            color: white;
-            border-color: #ff8888;
-        }
-
-        .icon-btn {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            font-size: 1.2rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .icon-btn:hover {
-            background: var(--gold);
-            color: #000;
-            box-shadow: 0 0 10px var(--gold);
-        }
-
-        /* --- Scanning Line --- */
-        #scanner-line {
+        /* --- SCAN LINE --- */
+        #scan-line {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: rgba(255, 215, 0, 0.8);
-            box-shadow: 0 0 10px var(--gold);
-            z-index: 1000;
+            height: 4px;
+            background: rgba(212, 175, 55, 0.8);
+            box-shadow: 0 0 15px var(--gold-base);
+            z-index: 9999;
             pointer-events: none;
-            display: none;
+            animation: scan-down 4s linear infinite;
         }
 
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
+        @keyframes scan-down {
+            0% { top: -5%; opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
+            100% { top: 105%; opacity: 0; }
         }
 
-        .scanning #scanner-line {
-            display: block;
-            animation: scan 3s linear infinite;
-        }
-
-        /* --- Layout --- */
-        header {
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid var(--gold-dark);
-            z-index: 10;
-            height: 60px;
-            flex-shrink: 0;
-        }
-
-        .hud-stats {
-            display: flex;
-            gap: 20px;
-            font-size: 1.1rem;
-            align-items: center;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 5;
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
-            overflow: hidden;
+            flex: 1;
+            position: relative;
+            z-index: 10;
         }
 
-        /* --- Screens --- */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--gold-dark);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            background: #000;
+            border-top: 1px solid var(--gold-dark);
+        }
+
+        /* --- SCREENS --- */
         .screen {
             display: none;
-            width: 100%;
-            max-width: 800px;
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             animation: fadeIn 0.5s ease;
         }
 
         .screen.active {
-            display: flex;
+            display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Menu --- */
-        .menu-card {
-            background: var(--glass);
-            padding: 40px;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            max-height: 100%;
-            overflow-y: auto; /* Allow scrolling on small screens */
-        }
-
-        .mode-select {
-            display: flex;
-            gap: 20px;
-            margin: 20px 0;
-            justify-content: center;
-        }
-
-        .input-group {
-            margin: 20px 0;
-            color: var(--gold);
-        }
-        .input-group input {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 5px;
-            width: 60px;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        /* --- Quiz Interface --- */
-        .quiz-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .question-card {
-            background: var(--glass);
-            padding: 20px;
+        /* --- START SCREEN --- */
+        .card {
+            background: linear-gradient(145deg, #222, #151515);
+            border: 1px solid var(--gold-dark);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             margin-bottom: 20px;
-            border-radius: 8px;
-            min-height: 150px;
-            max-height: 25vh;
-            overflow-y: auto; /* Scroll long questions */
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--gold-light);
+            font-size: 1.1rem;
+        }
+
+        input[type="range"], select, input[type="number"] {
+            background: #000;
+            color: var(--gold-base);
+            border: 1px solid var(--gold-dark);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(to right, var(--gold-dark), var(--gold-base));
+            border: none;
+            padding: 15px 30px;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            margin: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* --- QUIZ UI --- */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.6);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--gold-dark);
+        }
+
+        .hud-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.2rem;
-            position: relative;
-            border: 2px solid var(--gold);
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .question-box {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            min-height: 80px;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
-            overflow-y: auto;
-            padding: 10px;
-            max-height: 35vh; /* Scroll long option lists */
         }
 
         .option-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--gold-dark);
-            color: var(--gold-light);
-            padding: 15px;
+            background: #2a2a2a;
+            color: white;
+            border: 2px solid var(--gold-dark);
+            padding: 20px;
+            border-radius: 10px;
             text-align: left;
-            cursor: pointer;
-            transition: 0.2s;
-            border-radius: 4px;
+            font-size: 1rem;
+            transition: 0.3s;
             position: relative;
             overflow: hidden;
         }
 
         .option-btn:hover {
-            background: rgba(212, 175, 55, 0.2);
+            background: #333;
+            border-color: var(--gold-light);
         }
 
         .option-btn.correct {
-            background: rgba(46, 204, 113, 0.3);
-            border-color: var(--green);
-            color: #fff;
+            background: rgba(0, 100, 0, 0.8) !important;
+            border-color: var(--accent-green);
         }
 
         .option-btn.wrong {
-            background: rgba(231, 76, 60, 0.3);
-            border-color: var(--red);
-            color: #fff;
+            background: rgba(100, 0, 0, 0.8) !important;
+            border-color: var(--accent-red);
         }
 
-        .feedback-area {
-            min-height: 60px;
-            margin-top: 10px;
-            text-align: center;
-            color: #fff;
-            font-size: 0.9rem;
-            padding: 10px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 4px;
-            display: none;
-            overflow-y: auto;
+        /* --- FEEDBACK & ANIMATIONS --- */
+        .bubble {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            font-size: 2rem;
+            z-index: 100;
         }
 
-        .quiz-footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding-bottom: 10px;
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
+        /* --- NAVIGATOR --- */
         .navigator {
             display: flex;
-            gap: 5px;
             flex-wrap: wrap;
-            max-width: 60%;
+            gap: 5px;
+            margin-top: 20px;
+            justify-content: center;
+            max-height: 150px;
             overflow-y: auto;
-            max-height: 80px; /* Easy scrolling area */
-            align-content: flex-start;
-            padding: 5px;
+            padding: 10px;
             background: rgba(0,0,0,0.3);
-            border-radius: 4px;
-        }
-
-        /* Custom Scrollbar for navigator */
-        .navigator::-webkit-scrollbar {
-            width: 5px;
-        }
-        .navigator::-webkit-scrollbar-track {
-            background: #000;
-        }
-        .navigator::-webkit-scrollbar-thumb {
-            background: var(--gold-dark);
-            border-radius: 5px;
+            border-radius: 10px;
         }
 
         .nav-dot {
-            width: 25px;
-            height: 25px;
-            border: 1px solid var(--gold-dark);
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            background: #333;
+            border: 1px solid #555;
+            color: #aaa;
             display: flex;
-            justify-content: center;
             align-items: center;
-            cursor: pointer;
+            justify-content: center;
             font-size: 0.8rem;
-            color: #555;
-            flex-shrink: 0;
+            cursor: pointer;
         }
 
-        .nav-dot.active { border-color: var(--gold); color: var(--gold); font-weight: bold; }
-        .nav-dot.completed { background: var(--gold-dark); color: #000; border-color: var(--gold); }
-        .nav-dot.correct { background: var(--green); border-color: var(--green); color: white; }
-        .nav-dot.wrong { background: var(--red); border-color: var(--red); color: white; }
+        .nav-dot.active { background: var(--gold-base); color: black; border-color: #fff; }
+        .nav-dot.answered { background: var(--gold-dark); border-color: var(--gold-light); }
+        .nav-dot.correct { background: var(--accent-green); }
+        .nav-dot.wrong { background: var(--accent-red); }
 
-        /* --- Alien Pet --- */
+        /* --- ALIEN PET --- */
         #alien-pet {
-            position: absolute;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             width: 80px;
             height: 80px;
-            font-size: 60px;
             cursor: grab;
-            z-index: 999;
-            filter: drop-shadow(0 0 10px var(--gold));
+            z-index: 10000;
+            filter: drop-shadow(0 0 10px var(--gold-base));
             transition: transform 0.1s;
-            top: 80%;
-            left: 80%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            user-select: none;
         }
         
         #alien-pet:active {
@@ -417,384 +335,384 @@
             transform: scale(1.1);
         }
 
-        /* --- Visual Effects --- */
-        .particle {
-            position: absolute;
-            pointer-events: none;
-            animation: floatUp 1.5s ease-out forwards;
-            font-size: 20px;
-            z-index: 1001;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(0); opacity: 0; }
-        }
-
-        .emoji-effect {
-            position: absolute;
-            font-size: 30px;
-            pointer-events: none;
-            animation: popFade 1s ease-out forwards;
-            z-index: 1002;
-        }
-
-        @keyframes popFade {
-            0% { transform: scale(0) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
-            100% { transform: scale(1) rotate(360deg); opacity: 0; top: -50px; }
-        }
-
-        /* Toggle Switch */
-        .switch-container {
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            color: var(--gold);
-            font-size: 0.9rem;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 20px;
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
         }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333;
-            transition: .4s;
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 2px solid var(--gold-base);
+            padding: 30px;
             border-radius: 20px;
-            border: 1px solid var(--gold-dark);
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 14px;
-            width: 14px;
-            left: 2px;
-            bottom: 2px;
-            background-color: var(--gold);
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--gold-dark); }
-        input:checked + .slider:before { transform: translateX(20px); background-color: #fff; }
-
-        /* Timer */
-        .timer {
-            font-family: monospace;
-            font-size: 1.5rem;
-            color: var(--gold);
-        }
-
-        /* Footer */
-        footer {
             text-align: center;
-            padding: 10px;
-            font-size: 0.8rem;
-            background: rgba(0,0,0,0.9);
-            border-top: 1px solid #333;
-            z-index: 10;
-            flex-shrink: 0;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
         }
-        .copyright-text {
-            font-family: monospace;
+
+        .score-display {
+            font-size: 4rem;
+            color: var(--gold-base);
+            margin: 20px 0;
             font-weight: bold;
-            text-transform: uppercase;
-            animation: wavy 2s ease-in-out infinite, rgb-flow 3s linear infinite;
+        }
+
+        /* Responsive */
+        @media (min-width: 600px) {
+            .options-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="scanner-line"></div>
+    <!-- VISUAL EFFECTS -->
+    <div id="scan-line"></div>
+    <div id="particles-container"></div>
 
-    <header>
-        <div style="font-weight: bold; font-size: 1rem; color: #888;">LAB SYSTEM v2.0</div>
-        
-        <div class="hud-stats">
-            <!-- Full Screen Toggle -->
-            <button class="icon-btn" id="fs-toggle" title="Toggle Fullscreen">⛶</button>
-            
-            <div class="switch-container">
-                <span>Scan</span>
-                <label class="switch">
-                    <input type="checkbox" id="scan-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="stat-item">🪙 <span id="coin-display">0</span></div>
-            <div class="stat-item">⭐ <span id="score-display">0</span></div>
-        </div>
-    </header>
+    <!-- MOVABLE ALIEN PET -->
+    <div id="alien-pet">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="#76c7c0" stroke="#D4AF37" stroke-width="3"/>
+            <ellipse cx="35" cy="40" rx="8" ry="12" fill="black"/>
+            <ellipse cx="65" cy="40" rx="8" ry="12" fill="black"/>
+            <path d="M35 65 Q50 80 65 65" stroke="black" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="20" cy="50" r="10" fill="#76c7c0" stroke="#D4AF37" stroke-width="2"/>
+            <circle cx="80" cy="50" r="10" fill="#76c7c0" stroke="#D4AF37" stroke-width="2"/>
+        </svg>
+    </div>
 
-    <main>
-        <!-- ALIEN PET -->
-        <div id="alien-pet">👾</div>
+    <div class="container">
+        <header>
+            <h1 class="gold-text">LABORATORY <span class="shaky-dancy rgb-text">FINAL</span></h1>
+            <p>Immune System • Blood • Genetics • Biosafety</p>
+        </header>
 
         <!-- START SCREEN -->
         <div id="start-screen" class="screen active">
-            <div class="menu-card gold-border">
-                <h1 class="main-title">Laboratory <span class="final-text">FINAL</span></h1>
-                <p style="font-style:italic; color:#aaa;">Master the Immune System, Blood, & Genetics</p>
-                
-                <div class="input-group">
-                    <label for="q-count">Number of Questions (1-200): </label>
-                    <input type="number" id="q-count" min="1" max="200" value="50">
+            <div class="card">
+                <div class="setting-group">
+                    <label>Game Mode</label>
+                    <select id="game-mode">
+                        <option value="exam">Exam Mode (Strict Timing)</option>
+                        <option value="study">Study/Review (Instant Feedback)</option>
+                    </select>
                 </div>
 
-                <div class="mode-select">
-                    <button class="gold-btn" onclick="startQuiz('study')">Study Mode</button>
-                    <button class="gold-btn" onclick="startQuiz('exam')">Exam Mode</button>
+                <div class="setting-group">
+                    <label>Number of Questions (Max 200)</label>
+                    <input type="number" id="question-count" value="50" min="5" max="200">
                 </div>
 
-                <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">
-                    <p>🔊 Sound FX Enabled</p>
-                    <p>👾 Drag the Alien for luck</p>
-                    <p>⛶ Fullscreen mode available</p>
+                <div class="setting-group">
+                    <label style="font-size: 0.9rem; opacity: 0.8;">
+                        <input type="checkbox" id="shuffle-opt" checked> Shuffle Questions & Answers
+                    </label>
+                </div>
+
+                <button onclick="startGame()">Start Challenge</button>
+            </div>
+            
+            <div class="card">
+                <h3 class="gold-text">Your Collection</h3>
+                <div id="collection-display" style="display: flex; gap: 10px; justify-content: center; font-size: 2rem;">
+                    <!-- Unlocked items appear here -->
+                    <span title="Novice">🥚</span>
                 </div>
             </div>
         </div>
 
-        <!-- QUIZ SCREEN -->
-        <div id="quiz-screen" class="screen">
-            <div class="quiz-container">
-                <div class="quiz-footer" style="margin-bottom: 10px; justify-content: space-between;">
-                    <div>Q: <span id="q-current">1</span> / <span id="q-total">50</span></div>
-                    <div id="timer-display" class="timer">00:00</div>
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="screen">
+            <div class="hud">
+                <div class="hud-item">
+                    <span>⏱️</span> <span id="timer">00:00</span>
                 </div>
-
-                <div class="question-card gold-border">
-                    <p id="question-text">Loading...</p>
+                <div class="hud-item">
+                    <span>❤️</span> <span id="lives">3</span>
                 </div>
+                <div class="hud-item">
+                    <span>💰</span> <span id="score">0</span>
+                </div>
+                <div class="hud-item">
+                    <span>🏆</span> <span id="progress">1/50</span>
+                </div>
+            </div>
 
+            <div class="card">
+                <div id="question-text" class="question-box">Loading...</div>
                 <div id="options-container" class="options-grid">
                     <!-- Options injected here -->
                 </div>
+                <div id="feedback-area" style="text-align: center; margin-top: 15px; height: 20px; font-weight: bold;"></div>
+            </div>
 
-                <div id="feedback-box" class="feedback-area"></div>
+            <div class="navigator" id="nav-container">
+                <!-- Dots injected here -->
+            </div>
 
-                <div class="quiz-footer">
-                    <div class="navigator" id="nav-dots">
-                        <!-- Dots injected here -->
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <button id="end-test-btn" class="gold-btn red-btn" onclick="finishQuiz()">End Test</button>
-                        <button id="next-btn" class="gold-btn" onclick="nextQuestion()">Next</button>
-                    </div>
-                </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="endGame()" style="background: #8b0000; border-color: red; color: white;">End Test</button>
             </div>
         </div>
 
-        <!-- RESULT SCREEN -->
+        <!-- RESULTS SCREEN -->
         <div id="result-screen" class="screen">
-            <div class="menu-card gold-border">
-                <h1 class="gold-text">MISSION COMPLETE</h1>
-                <div style="font-size: 4rem; margin: 20px;">🏆</div>
-                
-                <h2 id="final-score">Score: 0</h2>
+            <div class="card" style="text-align: center;">
+                <h2 class="gold-text">Mission Complete</h2>
+                <div class="score-display" id="final-score">0</div>
+                <p>Total Coins Earned: <span id="final-coins" class="gold-text">0</span></p>
                 <p>Accuracy: <span id="accuracy">0%</span></p>
-                <p>Coins Earned: <span id="coins-earned">0</span></p>
                 
-                <div style="margin-top: 30px;">
-                    <button class="gold-btn" onclick="goHome()">Main Menu</button>
-                    <button class="gold-btn" onclick="restartQuiz()">Retake</button>
+                <div id="new-unlocks" style="margin: 20px 0; display: none;">
+                    <h3 class="gold-text">New Unlocks!</h3>
+                    <div id="unlock-icons" style="font-size: 3rem;"></div>
                 </div>
+
+                <button onclick="goToStart()">Play Again</button>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer>
-        <span class="copyright-text">AMER ALSHARIF 2026</span>
+        <span class="wavy-rgb">AMER ALSHARIF 2026</span>
     </footer>
 
+    <!-- CUSTOM MODAL -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title" class="gold-text">Alert</h2>
+            <p id="modal-message">Message</p>
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
     <script>
-        /* --- GAME DATA & CONTENT --- */
-        const rawQuestions = [
-            { q: "What is the primary function of the Immune System?", a: ["Protecting against infections", "Digesting food", "Pumping blood", "Filtering waste"], c: 0, exp: "The Immune System protects against infections and foreign substances." },
-            { q: "Which cells are collectively known as phagocytes?", a: ["Neutrophils and macrophages", "Basophils and eosinophils", "B cells and T cells", "Platelets"], c: 0, exp: "Neutrophils and macrophages engulf and destroy pathogens." },
-            { q: "What is the role of Basophils and Eosinophils?", a: ["Release histamine", "Phagocytosis", "Produce antibodies", "Clotting blood"], c: 0, exp: "They release signaling and inflammatory molecules like histamine." },
-            { q: "Which T cells coordinate immune responses?", a: ["Helper T cells (CD4+)", "Cytotoxic T cells (CD8+)", "Suppressor T cells", "Memory T cells"], c: 0, exp: "Helper T cells release cytokines to activate B cells and macrophages." },
-            { q: "What do Cytotoxic T cells (CD8+) do?", a: ["Destroy virus-infected cells", "Produce antibodies", "Release histamine", "Phagocytose bacteria"], c: 0, exp: "They recognize and destroy virus-infected or cancerous cells." },
-            { q: "Which antibody is the most abundant in blood?", a: ["IgG", "IgA", "IgM", "IgE"], c: 0, exp: "IgG makes up ~75% of total antibodies." },
-            { q: "Which antibody is the 'First Responder'?", a: ["IgM", "IgG", "IgA", "IgD"], c: 0, exp: "IgM is the first antibody produced during an initial immune response." },
-            { q: "Which antibody is associated with mucosal protection?", a: ["IgA", "IgG", "IgM", "IgE"], c: 0, exp: "IgA protects mucosal surfaces (respiratory, digestive, urogenital)." },
-            { q: "Which antibody triggers allergic reactions?", a: ["IgE", "IgG", "IgM", "IgD"], c: 0, exp: "IgE binds to mast cells and triggers histamine release." },
-            { q: "In the GAMED acronym, what does 'E' stand for?", a: ["Emergency (Allergy)", "Erythrocyte", "Enzyme", "External"], c: 0, exp: "E = Emergency (Allergy, parasites)." },
-            { q: "What is Passive Natural Immunity?", a: ["Antibodies from mother to fetus", "Vaccination", "Infection recovery", "Injection of serum"], c: 0, exp: "Antibodies pass from mother to fetus via placenta or milk." },
-            { q: "What virus causes AIDS?", a: ["HIV", "HBV", "HCV", "Influenza"], c: 0, exp: "HIV leads to acquired immunodeficiency syndrome." },
-            { q: "Which cells does HIV primarily infect?", a: ["CD4+ T cells", "Red blood cells", "Platelets", "Neutrophils"], c: 0, exp: "HIV infects CD4+ T cells, macrophages, and dendritic cells." },
-            { q: "What is the main function of blood?", a: ["Transport O2 and CO2", "Store calcium", "Produce hormones", "Digest proteins"], c: 0, exp: "Blood carries O2 from lungs to tissues and CO2 back." },
-            { q: "What percentage of blood is plasma?", a: ["55%", "45%", "10%", "90%"], c: 0, exp: "Blood is 55% plasma and 45% formed elements." },
-            { q: "Which WBCs are Granulocytes?", a: ["Neutrophils, Eosinophils, Basophils", "Monocytes, Lymphocytes", "Erythrocytes, Platelets", "B cells, T cells"], c: 0, exp: "Granulocytes contain cytoplasmic granules." },
-            { q: "Which WBC count increases in bacterial infections?", a: ["Neutrophils", "Lymphocytes", "Basophils", "Monocytes"], c: 0, exp: "Neutrophilia is associated with bacterial infections." },
-            { q: "What is the normal platelet count?", a: ["150,000–400,000/mm³", "50,000–100,000/mm³", "500,000–600,000/mm³", "10,000–50,000/mm³"], c: 0, exp: "Normal count is 150,000–400,000 per mm³." },
-            { q: "Which anticoagulant is found in lavender top tubes?", a: ["EDTA", "Heparin", "Citrate", "Clot activator"], c: 0, exp: "Whole blood is collected in EDTA (lavender top) tubes." },
-            { q: "What is ABO BLOOD GROUPS based on?", a: ["Antigens on RBCs", "White blood cell count", "Platelet shape", "Plasma proteins"], c: 0, exp: "Groups A, B, AB, O are based on RBC antigens." },
-            { q: "Which antigen is most important in the Rhesus system?", a: ["D antigen", "C antigen", "E antigen", "e antigen"], c: 0, exp: "The D antigen is most important as it triggers strong immune response." },
-            { q: "What happens if an Rh-negative mother has an Rh-positive baby?", a: ["Erythroblastosis Fetalis", "ABO incompatibility", "Leukemia", "Thrombocytosis"], c: 0, exp: "Mother's anti-D antibodies attack baby's RBCs (Hemolytic Disease)." },
-            { q: "What is the Bombay Blood Group (Oh)?", a: ["Lacks H antigen", "Lacks A antigen", "Lacks B antigen", "Lacks D antigen"], c: 0, exp: "Bombay phenotype individuals lack the H antigen." },
-            { q: "Who discovered the Bombay Blood Group?", a: ["Dr. Y. M. Bhende", "Landsteiner", "Louis Pasteur", "Robert Koch"], c: 0, exp: "Discovered by Dr. Y. M. Bhende in Bombay, India." },
-            { q: "What is CPDA-1?", a: ["Anticoagulant", "Antibiotic", "Virus", "Blood type"], c: 0, exp: "Citrate Phosphate Dextrose with Adenine, an anticoagulant preservative." },
-            { q: "How many chromosomes do humans have?", a: ["46", "23", "44", "48"], c: 0, exp: "Humans have 46 chromosomes (23 pairs)." },
-            { q: "What is a Genotype?", a: ["Genetic makeup", "Observable traits", "Blood type", "Physical appearance"], c: 0, exp: "Genotype is the actual genetic makeup or DNA sequence." },
-            { q: "Inheritance pattern of BRCA1/2 mutations?", a: ["Autosomal Dominant", "Autosomal Recessive", "X-Linked", "Mitochondrial"], c: 0, exp: "Only one mutated copy is needed for expression." },
-            { q: "What is a Nonsense Mutation?", a: ["Creates a stop codon", "Changes one amino acid", "No change", "Deletes a gene"], c: 0, exp: "Creates a premature stop codon, shortening the protein." },
-            { q: "Why is Informed Consent important?", a: ["Ethically and psychologically", "Legal only", "Cost saving", "Doctor's preference"], c: 0, exp: "It is crucial ethically and psychologically for patient autonomy." },
-            { q: "What is the Chain of Infection?", a: ["Sequence of transmission", "DNA sequence", "Antibody chain", "Heart rhythm"], c: 0, exp: "6 elements required for infection transmission." },
-            { q: "What is the most effective infection control measure?", a: ["Hand Hygiene", "Masks only", "Gowns only", "Gloves only"], c: 0, exp: "Hand hygiene is the single most important measure." },
-            { q: "What biosafety level are most hospital labs?", a: ["BSL-2", "BSL-1", "BSL-3", "BSL-4"], c: 0, exp: "BSL-2 covers moderate-risk pathogens like Hepatitis." },
-            { q: "What does PPE protect?", a: ["Healthcare worker", "Furniture only", "Air only", "Water supply"], c: 0, exp: "Creates a barrier between the worker and infectious agents." },
-            { q: "What is the purpose of Safety-Engineered Devices?", a: ["Prevent needle sticks", "Cost reduction", "Faster collection", "Better storage"], c: 0, exp: "Needles with retractable mechanisms reduce injury rates." },
-            { q: "What is the first step after a needlestick?", a: ["Wash wound", "Report next day", "Wait for symptoms", "Apply bandage only"], c: 0, exp: "Wash with soap and running water immediately." },
-            { q: "What must NOT be used as a patient identifier?", a: ["Room number", "Name", "DOB", "MRN"], c: 0, exp: "Room numbers are not unique identifiers." },
-            { q: "What specimen type is used for ABG analysis?", a: ["Arterial Blood", "Venous Blood", "Capillary Blood", "Urine"], c: 0, exp: "Arterial blood is used for blood gas analysis." },
-            { q: "What is a 'Clean-Catch' urine specimen?", a: ["Midstream", "First morning", "24-hour", "Random"], c: 0, exp: "Discarding first and last portions reduces contamination." },
-            { q: "Where is Cerebrospinal Fluid (CSF) collected?", a: ["Lumbar puncture", "Arm vein", "Finger stick", "Throat swab"], c: 0, exp: "Collected via lumbar puncture to diagnose meningitis etc." },
-            { q: "What is Point-of-Care Testing (POCT)?", a: ["Bedside diagnostics", "Lab research", "Home cooking", "Radiology"], c: 0, exp: "Testing performed at or near the patient site." },
-            { q: "Where does capillary blood come from?", a: ["Skin puncture", "Vein", "Artery", "Bone marrow"], c: 0, exp: "Obtained by pricking the fingertip or heel." },
-            { q: "What is the 'Scan Line' feature?", a: ["Visual effect", "A lab tool", "A disease", "A blood cell"], c: 0, exp: "A visual effect to scan the whole page." },
-            { q: "Which sound effect is included?", a: ["Alien", "Dog bark", "Car horn", "Music"], c: 0, exp: "Synthesized alien sound FX are included." },
-            { q: "What happens when you answer correctly?", a: ["Hearts appear", "Alien disappears", "Screen turns blue", "Game ends"], c: 0, exp: "Bubbles and hearts appear for correct answers." },
-            { q: "The Immune System is a complex system responsible for?", a: ["Protecting us", "Digestion", "Movement", "Sensation"], c: 0, exp: "Protecting us against infections and foreign substances." },
-            { q: "Basophils release what molecule?", a: ["Histamine", "Insulin", "Adrenaline", "Estrogen"], c: 0, exp: "Basophils release signaling and inflammatory molecules like histamine." }
+        /* 
+         * DATA GENERATION ENGINE
+         * Generates 200 questions based on the provided text content.
+         */
+        const rawTopics = [
+            { t: "Immune System", q: ["What is the main function of the Immune System?", "Which system protects against infections?"], a: ["Protecting us against infections and foreign substances", "Producing red blood cells", "Digesting food", "Regulating body temperature"], c: 0 },
+            { t: "Innate Immunity", q: ["What is the second line of defense called?", "Which cells release histamine to attract immune cells?"], a: ["Innate Immunity", "Adaptive Immunity", "Passive Immunity", "Specific Immunity"], c: 0 },
+            { t: "WBCs", q: ["Which cells are collectively known as phagocytes?", "Basophils and eosinophils release which molecule?"], a: ["Neutrophils and macrophages", "B and T cells", "Platelets", "Erythrocytes"], c: 0 },
+            { t: "Histamine", q: ["Which molecule is released by basophils and eosinophils?", "What attracts other immune cells to a site of infection?"], a: ["Histamine", "Insulin", "Adrenaline", "Melatonin"], c: 0 },
+            { t: "T Cells", q: ["T lymphocytes are part of which immune system?", "Helper T cells (CD4+) coordinate responses by releasing what?"], a: ["Adaptive immune system", "Innate immune system", "Circulatory system", "Skeletal system"], c: 0 },
+            { t: "Cytokines", q: ["What do Helper T cells release to activate B cells?", "What do Cytotoxic T cells (CD8+) destroy?"], a: ["Cytokines", "Antibodies", "Histamine", "Enzymes"], c: 0 },
+            { t: "Cytotoxic T Cells", q: ["Which cells recognize and destroy virus-infected or cancerous cells?", "What is the function of CD8+ T cells?"], a: ["Cytotoxic T cells (CD8+)", "Helper T cells (CD4+)", "B cells", "Neutrophils"], c: 0 },
+            { t: "Antibodies", q: ["How many main classes of antibodies (immunoglobulins) are there?", "What are antibodies also known as?"], a: ["Five (IgG, IgA, IgM, IgE, IgD)", "Three", "Two", "Ten"], c: 0 },
+            { t: "IgG", q: ["Which antibody is the most abundant in blood (~75%)?", "Which antibody provides long-term immunity?"], a: ["IgG", "IgA", "IgM", "IgE"], c: 0 },
+            { t: "Placenta", q: ["Which antibody can cross the placenta to protect the fetus?", "IgG provides which type of immunity to the fetus?"], a: ["IgG", "IgA", "IgM", "IgD"], c: 0 },
+            { t: "IgA", q: ["Where is IgA primarily found?", "Which antibody protects mucosal surfaces?"], a: ["Mucus, saliva, tears, breast milk", "Blood only", "Bone marrow", "Urine"], c: 0 },
+            { t: "IgM", q: ["Which antibody is the first responder in an infection?", "Which antibody is excellent at agglutination?"], a: ["IgM", "IgG", "IgA", "IgE"], c: 0 },
+            { t: "IgE", q: ["Which antibody is involved in allergic reactions?", "Which antibody binds to mast cells?"], a: ["IgE", "IgG", "IgM", "IgD"], c: 0 },
+            { t: "Parasites", q: ["IgE provides defence against what?", "Which antibody defends against helminths?"], a: ["Parasitic worms (helminths)", "Bacteria", "Viruses", "Fungi"], c: 0 },
+            { t: "IgD", q: ["Which antibody functions mainly as a B-cell receptor?", "Where is IgD mainly found?"], a: ["IgD", "IgG", "IgM", "IgE"], c: 0 },
+            { t: "GAMED", q: ["In the acronym GAMED, what does 'A' stand for?", "In GAMED, what does 'E' stand for?"], a: ["At mucosal surfaces", "Acute immunity", "Always active", "Antibody generation"], c: 0 },
+            { t: "Adaptive Immunity", q: ["What are the two types of Adaptive Immunity?", "Active and Passive are types of which immunity?"], a: ["Active and Passive", "Innate and Acquired", "Natural and Artificial", "Specific and Non-specific"], c: 0 },
+            { t: "Natural Active", q: ["Naturally acquired Active immunity occurs when?", "How are antibodies naturally acquired passively?"], a: ["Antigens enter the body naturally", "Vaccination", "Injection of serum", "Through touch"], c: 0 },
+            { t: "Natural Passive", q: ["How do antibodies pass from mother to infant naturally?", "What is an example of naturally acquired passive immunity?"], a: ["Via placenta or mother's milk", "Through vaccination", "Via blood transfusion", "Through inhalation"], c: 0 },
+            { t: "Artificial Active", q: ["What is Artificially acquired Active immunity?", "How are antigens introduced in artificial active immunity?"], a: ["Vaccination", "Infection", "Mother's milk", "Serum injection"], c: 0 },
+            { t: "HIV", q: ["What virus causes AIDS?", "Which immune cells does HIV primarily infect?"], a: ["Human Immunodeficiency Virus", "Influenza virus", "Hepatitis B", "Epstein-Barr"], c: 0 },
+            { t: "CD4", q: ["HIV primarily infects which cells?", "What happens to CD4+ T cell counts in HIV?"], a: ["CD4⁺ T cells", "Red blood cells", "Platelets", "Neutrophils"], c: 0 },
+            { t: "ART", q: ["What therapy suppresses HIV viral replication?", "What does ART stand for?"], a: ["Antiretroviral therapy", "Antibiotic Resistance Therapy", "Advanced Radiotherapy", "Acute Rehab Treatment"], c: 0 },
+            { t: "Blood Function", q: ["What is the primary transport function of blood?", "Blood helps maintain which balance?"], a: ["Carries O2 and CO2", "Stores calcium", "Produces hormones", "Digests proteins"], c: 0 },
+            { t: "Blood Composition", q: ["Blood is approximately how much plasma?", "What are the formed elements of blood?"], a: ["55%", "90%", "10%", "75%"], c: 0 },
+            { t: "RBC", q: ["What is the shape of Red Blood Cells?", "What is another name for RBCs?"], a: ["Biconcave", "Spherical", "Cuboidal", "Irregular"], c: 0 },
+            { t: "Neutrophils", q: ["Which WBC is the most abundant (45-75%)?", "Neutrophils increase in which condition?"], a: ["Neutrophils", "Lymphocytes", "Eosinophils", "Basophils"], c: 0 },
+            { t: "Bacterial Infection", q: ["Neutrophils perform phagocytosis of what?", "An increase in neutrophils is called what?"], a: ["Bacteria", "Viruses", "Parasites", "Fungi"], c: 0 },
+            { t: "Eosinophils", q: ["Which WBC responds to parasitic infections?", "Eosinophils increase in allergic reactions and?"], a: ["Eosinophils", "Basophils", "Monocytes", "Neutrophils"], c: 0 },
+            { t: "Basophils", q: ["Which WBC releases histamine and heparin?", "Basophils are involved in what response?"], a: ["Basophils", "Neutrophils", "Lymphocytes", "Monocytes"], c: 0 },
+            { t: "Monocytes", q: ["Monocytes become what in tissues?", "Which WBC becomes a macrophage?"], a: ["Macrophages", "Neutrophils", "Plasma cells", "Mast cells"], c: 0 },
+            { t: "Lymphocytes", q: ["Which cells provide cellular immunity?", "B cells produce what?"], a: ["T cells", "Neutrophils", "Platelets", "Erythrocytes"], c: 0 },
+            { t: "Platelets", q: ["What is the normal count of platelets?", "Where are platelets derived from?"], a: ["150,000–400,000/mm³", "1-5 million", "5000-10000", "1 million"], c: 0 },
+            { t: "Megakaryocytes", q: ["Platelets are fragments of which cells?", "What is the lifespan of platelets?"], a: ["Megakaryocytes", "Lymphocytes", "Erythrocytes", "Monocytes"], c: 0 },
+            { t: "Thrombocytopenia", q: ["What is a low platelet count called?", "Thrombocytopenia leads to what risk?"], a: ["Excessive bleeding", "Clotting", "High BP", "Anemia"], c: 0 },
+            { t: "EDTA", q: ["Whole blood is collected in which colored tube for CBC?", "What anticoagulant is in lavender top tubes?"], a: ["EDTA (Lavender)", "Heparin (Green)", "Clot (Red)", "Sodium Citrate (Blue)"], c: 0 },
+            { t: "Blood Transfusion", q: ["Who discovered the ABO blood groups?", "What made blood transfusion safe?"], a: ["Landsteiner", "Pasteur", "Fleming", "Jenner"], c: 0 },
+            { t: "ABO", q: ["What are the main ABO blood groups?", "Which blood group has no antigens?"], a: ["A, B, AB, O", "A, B, O", "A+, B+, O+", "Rh positive only"], c: 0 },
+            { t: "Rh Factor", q: ["What is the most important antigen in the Rh system?", "People who are Rh negative lack which antigen?"], a: ["D antigen", "C antigen", "E antigen", "A antigen"], c: 0 },
+            { t: "Erythroblastosis Fetalis", q: ["What is another name for Hemolytic Disease of the Newborn?", "When does Erythroblastosis Fetalis occur?"], a: ["When mother is Rh negative, baby is Rh positive", "When mother is Rh positive", "Always", "Never"], c: 0 },
+            { t: "Bombay Blood", q: ["What antigen is missing in the Bombay blood group?", "What is the frequency of Bombay blood group?"], a: ["H antigen", "A antigen", "B antigen", "D antigen"], c: 0 },
+            { t: "Anticoagulants", q: ["What was the first anticoagulant preservative discovered in 1916?", "What does CPDA-1 stand for?"], a: ["Citrate-Glucose", "Heparin", "Warfarin", "EDTA"], c: 0 },
+            { t: "DNA", q: ["What is the molecular structure of DNA?", "DNA contains how many nucleotide bases?"], a: ["Double helix", "Triple helix", "Single strand", "Quad helix"], c: 0 },
+            { t: "Genotype", q: ["What is the actual genetic makeup of an individual?", "What are observable characteristics called?"], a: ["Genotype", "Phenotype", "Allele", "Trait"], c: 0 },
+            { t: "Autosomal Dominant", q: ["How many mutated copies are needed for Autosomal Dominant disease?", "What is the transmission risk for Autosomal Dominant?"], a: ["One", "Two", "Three", "Zero"], c: 0 },
+            { t: "Autosomal Recessive", q: ["Cystic fibrosis follows which inheritance pattern?", "How many mutated copies are needed for Autosomal Recessive?"], a: ["Autosomal Recessive", "X-linked", "Dominant", "Mitochondrial"], c: 0 },
+            { t: "X-Linked", q: ["Hemophilia is an example of which inheritance?", "Who is primarily affected by X-linked disorders?"], a: ["Males", "Females", "Both equally", "Elderly"], c: 0 },
+            { t: "BRCA", q: ["BRCA1/2 mutations are associated with which cancer?", "What is the inheritance risk for BRCA mutations?"], a: ["Breast/Ovarian", "Lung", "Skin", "Prostate"], c: 0 },
+            { t: "Informed Consent", q: ["Why is informed consent important genetically?", "What must be discussed before genetic testing?"], a: ["Ethically and psychologically", "Only costs", "Only time", "Nothing"], c: 0 },
+            { t: "Infection Control", q: ["What is the goal of Infection Control?", "What prevents transmission of infectious agents?"], a: ["Prevent transmission", "Kill all bacteria", "Clean floors", "Wash walls"], c: 0 },
+            { t: "Chain of Infection", q: ["How many elements are in the Chain of Infection?", "Breaking any link in the chain does what?"], a: ["Six", "Ten", "Two", "One"], c: 0 },
+            { t: "Reservoir", q: ["Where does the pathogen live and multiply?", "What is the portal of exit?"], a: ["Reservoir", "Host", "Vector", "Vehicle"], c: 0 },
+            { t: "Standard Precautions", q: ["What is the single most important measure to prevent infection?", "When should Standard Precautions be applied?"], a: ["Hand Hygiene", "Wearing a mask", "Gloves only", "Gown only"], c: 0 },
+            { t: "PPE", q: ["What creates a barrier between you and infectious agents?", "What does PPE stand for?"], a: ["Personal Protective Equipment", "Patient Personal Equipment", "Private Protective Eye", "Public Protection Equipment"], c: 0 },
+            { t: "Biosafety", q: ["What level do most hospital labs operate at?", "Which BSL involves agents like Hepatitis viruses?"], a: ["BSL-2", "BSL-1", "BSL-3", "BSL-4"], c: 0 },
+            { t: "BSL-4", q: ["Which Biosafety Level handles dangerous agents like Ebola?", "What type of suits are used in BSL-4?"], a: ["Positive-pressure suits", "Surgical masks", "No protection needed", "Gloves only"], c: 0 },
+            { t: "Eye Protection", q: ["What does eye protection protect?", "When are masks and eye protection required?"], a: ["Mucous membranes", "Hands", "Feet", "Hair"], c: 0 },
+            { t: "Sharps Safety", q: ["What devices significantly reduce needlestick injuries?", "Where should sharps be disposed?"], a: ["Safety-Engineered Devices", "Trash can", "Pocket", "Floor"], c: 0 },
+            { t: "Exposure Protocol", q: ["What is the first step after a needlestick injury?", "What should be done for mucous membrane exposure?"], a: ["Wash with soap/water", "Ignore it", "Bandage tightly", "Apply heat"], c: 0 },
+            { t: "Patient ID", q: ["Which identifier must NOT be used to identify a patient?", "What are two acceptable patient identifiers?"], a: ["Room number", "Name and DOB", "Address and Phone", "MRN and Name"], c: 0 },
+            { t: "Specimen Collection", q: ["What must be verified before collecting a specimen?", "What is the most common blood sample type?"], a: ["Patient Identity", "Doctor's mood", "Time of day", "Weather"], c: 0 },
+            { t: "Urine Specimen", q: ["What is a 'clean-catch' urine specimen?", "What is a random urine specimen used for?"], a: ["Midstream specimen", "First morning only", "24 hour only", "Catheter only"], c: 0 },
+            { t: "Sputum", q: ["What is a sample of mucus coughed up from lungs?", "What is a Nasopharyngeal swab used for?"], a: ["Sputum", "Urine", "Blood", "CSF"], c: 0 },
+            { t: "POCT", q: ["What does POCT stand for?", "Where is Point-of-Care Testing performed?"], a: ["Point-of-Care Testing", "Pathology of Clinical Tech", "Point of Care Treatment", "Patient Online Check Tool"], c: 0 },
+            { t: "Capillary Blood", q: ["Where does capillary blood come from?", "What is the advantage of capillary blood collection?"], a: ["Skin prick (Finger/Heel)", "Vein", "Artery", "Bone marrow"], c: 0 },
+            { t: "Glucose", q: ["What is a common application of POCT?", "What test detects hCG in POCT?"], a: ["Blood Glucose Monitoring", "CBC", "Biopsy", "MRI"], c: 0 }
         ];
 
-        let baseQuestionBank = [];
-        
-        function generateVariations() {
-            const vars = [];
-            rawQuestions.forEach(q => {
-                vars.push(q);
-                if (Math.random() > 0.5) {
-                    vars.push({
-                        q: `True or False: ${q.exp}`,
-                        a: ["True", "False"],
-                        c: 0,
-                        exp: q.exp
+        // Function to generate 200 questions from the core topics
+        function generateQuestions() {
+            let allQuestions = [];
+            let idCounter = 1;
+
+            rawTopics.forEach((topic, index) => {
+                // Create variations for each topic to reach 200 total
+                // 1. Standard Question
+                if (topic.q[0]) {
+                    allQuestions.push({
+                        id: idCounter++,
+                        text: topic.q[0],
+                        options: [...topic.a],
+                        correctIndex: topic.c,
+                        category: topic.t
                     });
                 }
-            });
-            return vars;
-        }
-        baseQuestionBank = generateVariations();
-        
-        /* --- STATE MANAGEMENT --- */
-        let currentMode = 'study';
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let coins = parseInt(localStorage.getItem('goldExamCoins')) || 0;
-        let questions = [];
-        let userAnswers = [];
-        let timerInterval;
-        let timeRemaining = 0;
+                
+                // 2. Variation (if exists)
+                if (topic.q[1]) {
+                    allQuestions.push({
+                        id: idCounter++,
+                        text: topic.q[1],
+                        options: [...topic.a],
+                        correctIndex: topic.c,
+                        category: topic.t
+                    });
+                }
 
-        /* --- AUDIO SYSTEM --- */
+                // 3. Negative variation (Which is NOT...) - Generating procedural questions to fill up
+                // We create a "Not" version of the question
+                const correctAnswer = topic.a[topic.c];
+                const wrongOptions = topic.a.filter((_, i) => i !== topic.c);
+                // Pick a wrong option to be the correct answer for the "Not" question
+                const newCorrect = wrongOptions[0];
+                
+                allQuestions.push({
+                    id: idCounter++,
+                    text: `Which of the following is NOT a feature of ${topic.t}?`,
+                    options: [correctAnswer, newCorrect, wrongOptions[1] || "Option C", "Option D"].sort(() => Math.random() - 0.5),
+                    correctIndex: 0, // The original correct answer is the "wrong" feature
+                    category: topic.t + " (Negative)"
+                });
+            });
+
+            // Fill remaining to reach 200 by duplicating core questions with shuffled IDs
+            while (allQuestions.length < 200) {
+                const randomSource = rawTopics[Math.floor(Math.random() * rawTopics.length)];
+                allQuestions.push({
+                    id: idCounter++,
+                    text: randomSource.q[0] || `Question about ${randomSource.t}`,
+                    options: [...randomSource.a].sort(() => Math.random() - 0.5),
+                    correctIndex: 0, // Reset logic needs to find the original answer text index
+                    category: randomSource.t + " (Review)"
+                });
+                // Re-align correct index after shuffle for duplicated questions
+                const originalAnswer = randomSource.a[randomSource.c];
+                allQuestions[allQuestions.length - 1].correctIndex = allQuestions[allQuestions.length - 1].options.indexOf(originalAnswer);
+            }
+
+            return allQuestions.slice(0, 200); // Ensure exactly 200
+        }
+
+        const fullQuestionBank = generateQuestions();
+
+        /* --- GAME ENGINE --- */
+        const state = {
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            coins: 0,
+            mode: 'exam',
+            timer: 0,
+            timerInterval: null,
+            answers: [], // Stores { index: number, selected: index, correct: boolean }
+            startTime: 0
+        };
+
+        // DOM Elements
+        const screens = document.querySelectorAll('.screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const navContainer = document.getElementById('nav-container');
+        const timerDisplay = document.getElementById('timer');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplay = document.getElementById('lives'); // Currently mapped to lives or unused, using score
+        const progressDisplay = document.getElementById('progress');
+        const modal = document.getElementById('custom-modal');
+        const alienPet = document.getElementById('alien-pet');
+
+        // Sound Engine (Web Audio API)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
-        function playAlienSound(type = 'hover') {
+        function playSound(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
 
+            const now = audioCtx.currentTime;
+            
             if (type === 'correct') {
+                // High pitched "alien" ding
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.5);
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
             } else if (type === 'wrong') {
+                // Low pitched "bloop"
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.3);
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.3);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
             } else if (type === 'click') {
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.1);
-            } else if (type === 'scan') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(2000, audioCtx.currentTime + 1.5);
-                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 1.5);
+                // Short blip
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
             }
         }
 
-        /* --- UI UPDATES --- */
-        document.getElementById('coin-display').innerText = coins;
-        document.getElementById('score-display').innerText = score;
+        // Functions
+        function showScreen(id) {
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
 
-        /* --- DRAGGABLE ALIEN --- */
-        const pet = document.getElementById('alien-pet');
-        let isDragging = false;
-        let startX, startY, initialLeft, initialTop;
-
-        pet.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            playAlienSound('click');
-            startX = e.clientX;
-            startY = e.clientY;
-            initialLeft = pet.offsetLeft;
-            initialTop = pet.offsetTop;
-            pet.style.cursor = 'grabbing';
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            pet.style.left = `${initialLeft + dx}px`;
-            pet.style.top = `${initialTop + dy}px`;
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            pet.style.cursor = 'grab';
-        });
-
-        /* --- SCANNER TOGGLE --- */
-        document.getElementById('scan-toggle').addEventListener('change', (e) => {
-            if (e.target.checked) {
-                document.body.classList.add('scanning');
-                playAlienSound('scan');
-            } else {
-                document.body.classList.remove('scanning');
-            }
-        });
-
-        /* --- FULL SCREEN LOGIC --- */
-        const fsBtn = document.getElementById('fs-toggle');
-        fsBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-                fsBtn.innerHTML = "⛶";
-            } else {
-                document.exitFullscreen();
-                fsBtn.innerHTML = "⛶"; // Keep icon consistent or change if needed
-            }
-        });
-
-        /* --- GAME LOGIC --- */
-        function shuffleArray(array) {
+        function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
@@ -802,228 +720,271 @@
             return array;
         }
 
-        function startQuiz(mode) {
-            playAlienSound('click');
-            currentMode = mode;
-            currentQuestionIndex = 0;
-            score = 0;
-            
-            let desiredCount = parseInt(document.getElementById('q-count').value) || 50;
-            desiredCount = Math.min(Math.max(desiredCount, 1), 200);
-            
-            let tempPool = shuffleArray([...baseQuestionBank]);
-            questions = [];
-            
-            while(questions.length < desiredCount) {
-                questions = questions.concat(tempPool);
+        function startGame() {
+            const countInput = document.getElementById('question-count');
+            let count = parseInt(countInput.value);
+            if (count < 5) count = 5;
+            if (count > 200) count = 200;
+
+            state.mode = document.getElementById('game-mode').value;
+            state.questions = shuffle([...fullQuestionBank]).slice(0, count);
+            state.currentIndex = 0;
+            state.score = 0;
+            state.coins = 0;
+            state.answers = new Array(count).fill(null);
+            state.startTime = Date.now();
+
+            if (document.getElementById('shuffle-opt').checked) {
+                state.questions.forEach(q => {
+                    // Save original answer text
+                    const correctText = q.options[q.correctIndex];
+                    // Shuffle options
+                    q.options = shuffle(q.options);
+                    // Find new index
+                    q.correctIndex = q.options.indexOf(correctText);
+                });
             }
-            questions = questions.slice(0, desiredCount);
 
-            userAnswers = new Array(questions.length).fill(null);
-            
-            questions.forEach(q => {
-                const originalCorrectText = q.a[q.c];
-                q.a = shuffleArray([...q.a]);
-                q.c = q.a.indexOf(originalCorrectText);
-            });
-
-            document.getElementById('start-screen').classList.remove('active');
-            document.getElementById('quiz-screen').classList.add('active');
-            
-            document.getElementById('q-total').innerText = questions.length;
-            renderNavigator();
-            loadQuestion(0);
-
-            if (mode === 'exam') {
-                startTimer();
-                document.getElementById('timer-display').style.display = 'block';
-            } else {
-                document.getElementById('timer-display').style.display = 'none';
-            }
+            updateHUD();
+            buildNavigator();
+            renderQuestion();
+            startTimer();
+            showScreen('game-screen');
+            playSound('click');
         }
 
         function startTimer() {
-            timeRemaining = questions.length * 30; 
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                const m = Math.floor(timeRemaining / 60);
-                const s = timeRemaining % 60;
-                document.getElementById('timer-display').innerText = 
-                    `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    finishQuiz();
-                }
+            clearInterval(state.timerInterval);
+            state.timer = 0;
+            state.timerInterval = setInterval(() => {
+                state.timer++;
+                const m = Math.floor(state.timer / 60).toString().padStart(2, '0');
+                const s = (state.timer % 60).toString().padStart(2, '0');
+                timerDisplay.textContent = `${m}:${s}`;
             }, 1000);
         }
 
-        function loadQuestion(index) {
-            currentQuestionIndex = index;
-            const q = questions[index];
-            
-            document.getElementById('q-current').innerText = index + 1;
-            document.getElementById('question-text').innerText = q.q;
-            
-            const optionsDiv = document.getElementById('options-container');
-            optionsDiv.innerHTML = '';
-            
-            document.getElementById('feedback-box').style.display = 'none';
-            const nextBtn = document.getElementById('next-btn');
-            nextBtn.disabled = true;
-            nextBtn.style.opacity = '0.5';
-
-            q.a.forEach((opt, i) => {
-                const btn = document.createElement('div');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => selectAnswer(i, btn, q.c, q.exp);
-                optionsDiv.appendChild(btn);
+        function buildNavigator() {
+            navContainer.innerHTML = '';
+            state.questions.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `nav-dot ${i === 0 ? 'active' : ''}`;
+                dot.textContent = i + 1;
+                dot.onclick = () => jumpToQuestion(i);
+                navContainer.appendChild(dot);
             });
-
-            updateNavigator();
-        }
-
-        function selectAnswer(selectedIndex, btnElement, correctIndex, explanation) {
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(o => o.style.pointerEvents = 'none');
-
-            const isCorrect = selectedIndex === correctIndex;
-            userAnswers[currentQuestionIndex] = isCorrect;
-
-            if (isCorrect) {
-                btnElement.classList.add('correct');
-                playAlienSound('correct');
-                score += 10;
-                coins += 1;
-                spawnParticles(btnElement);
-                spawnEmojis(btnElement);
-            } else {
-                btnElement.classList.add('wrong');
-                options[correctIndex].classList.add('correct');
-                playAlienSound('wrong');
-            }
-
-            document.getElementById('score-display').innerText = score;
-            localStorage.setItem('goldExamCoins', coins);
-            document.getElementById('coin-display').innerText = coins;
-
-            const fb = document.getElementById('feedback-box');
-            fb.innerHTML = isCorrect 
-                ? `<span style="color:#2ecc71">Correct! </span> ${explanation}`
-                : `<span style="color:#e74c3c">Incorrect. </span> ${explanation}`;
-            fb.style.display = 'block';
-
-            updateNavigator();
-
-            const nextBtn = document.getElementById('next-btn');
-            nextBtn.disabled = false;
-            nextBtn.style.opacity = '1';
-        }
-
-        function nextQuestion() {
-            playAlienSound('click');
-            if (currentQuestionIndex < questions.length - 1) {
-                loadQuestion(currentQuestionIndex + 1);
-            } else {
-                finishQuiz();
-            }
         }
 
         function updateNavigator() {
-            const nav = document.getElementById('nav-dots');
-            nav.innerHTML = '';
-            questions.forEach((_, i) => {
-                const dot = document.createElement('div');
-                dot.className = 'nav-dot';
-                dot.innerText = i + 1;
-                if (i === currentQuestionIndex) dot.classList.add('active');
+            const dots = navContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active', 'answered', 'correct', 'wrong');
+                if (i === state.currentIndex) dots[i].classList.add('active');
+                if (state.answers[i]) {
+                    dots[i].classList.add('answered');
+                    dots[i].classList.add(state.answers[i].correct ? 'correct' : 'wrong');
+                }
+            }
+        }
+
+        function jumpToQuestion(index) {
+            state.currentIndex = index;
+            renderQuestion();
+            updateNavigator();
+        }
+
+        function renderQuestion() {
+            const q = state.questions[state.currentIndex];
+            questionText.textContent = q.text;
+            optionsContainer.innerHTML = '';
+            document.getElementById('feedback-area').textContent = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => handleAnswer(idx, btn);
                 
-                if (userAnswers[i] === true) dot.classList.add('correct');
-                else if (userAnswers[i] === false) dot.classList.add('wrong');
-                else if (userAnswers[i] === null) dot.classList.add('pending');
-
-                dot.onclick = () => {
-                     if (currentMode === 'study' || userAnswers[i] !== null) {
-                         playAlienSound('click');
-                         loadQuestion(i);
-                     }
-                };
-                nav.appendChild(dot);
+                // If already answered in review mode, show state
+                if (state.answers[state.currentIndex]) {
+                    btn.disabled = true;
+                    if (idx === q.correctIndex) btn.classList.add('correct');
+                    if (idx === state.answers[state.currentIndex].selected && !state.answers[state.currentIndex].correct) {
+                        btn.classList.add('wrong');
+                    }
+                }
+                optionsContainer.appendChild(btn);
             });
-
-            // Auto-scroll the active dot into view (Easy Scrolling)
-            const activeDot = nav.querySelector('.nav-dot.active');
-            if (activeDot) {
-                activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-        }
-
-        function renderNavigator() {
-            // Placeholder
-        }
-
-        /* --- PARTICLE & EMOJI SYSTEMS --- */
-        function spawnParticles(element) {
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            for (let i = 0; i < 15; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.innerText = ['❤️', '💛', '💖', '🧡', '💛'][Math.floor(Math.random() * 5)];
-                p.style.left = centerX + (Math.random() - 0.5) * 50 + 'px';
-                p.style.top = centerY + 'px';
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1500);
-            }
-        }
-
-        function spawnEmojis(element) {
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
             
-            const emojis = ['👾', '🚀', '✨', '🌟', '🧬', '🩸'];
+            progressDisplay.textContent = `${state.currentIndex + 1}/${state.questions.length}`;
+        }
+
+        function handleAnswer(selectedIndex, btnElement) {
+            // Prevent multiple clicks
+            if (state.answers[state.currentIndex]) return;
+
+            const q = state.questions[state.currentIndex];
+            const isCorrect = selectedIndex === q.correctIndex;
+            const timeTaken = (Date.now() - state.startTime) / 1000; // Rough time, strictly needs per-question start time but simplified here
+            
+            state.answers[state.currentIndex] = {
+                selected: selectedIndex,
+                correct: isCorrect
+            };
+
+            if (isCorrect) {
+                state.score += 10;
+                state.coins += 5;
+                playSound('correct');
+                btnElement.classList.add('correct');
+                spawnHearts(btnElement);
+                
+                // Fast answer bonus logic could go here if we tracked question start time
+            } else {
+                playSound('wrong');
+                btnElement.classList.add('wrong');
+                // Highlight correct one
+                const allBtns = optionsContainer.children;
+                allBtns[q.correctIndex].classList.add('correct');
+            }
+
+            updateHUD();
+            updateNavigator();
+
+            // If in Review mode, show feedback
+            if (state.mode === 'study') {
+                const fb = document.getElementById('feedback-area');
+                fb.textContent = isCorrect ? "CORRECT! Great job!" : `WRONG! Correct answer was: ${q.options[q.correctIndex]}`;
+                fb.style.color = isCorrect ? 'var(--accent-green)' : 'var(--accent-red)';
+            } else {
+                // Exam mode: Wait brief moment then next
+                setTimeout(() => {
+                    nextQuestion();
+                }, 1500);
+            }
+        }
+
+        function nextQuestion() {
+            if (state.currentIndex < state.questions.length - 1) {
+                state.currentIndex++;
+                renderQuestion();
+                updateNavigator();
+            } else {
+                endGame();
+            }
+        }
+
+        function updateHUD() {
+            scoreDisplay.textContent = state.score;
+        }
+
+        function spawnHearts(element) {
+            const rect = element.getBoundingClientRect();
             for (let i = 0; i < 5; i++) {
-                const e = document.createElement('div');
-                e.className = 'emoji-effect';
-                e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                e.style.left = centerX + (Math.random() - 0.5) * 100 + 'px';
-                e.style.top = centerY + 'px';
-                document.body.appendChild(e);
-                setTimeout(() => e.remove(), 1000);
+                const heart = document.createElement('div');
+                heart.textContent = '❤️';
+                heart.className = 'bubble';
+                heart.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                heart.style.top = rect.top + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
             }
         }
 
-        /* --- FINISH QUIZ --- */
-        function finishQuiz() {
-            clearInterval(timerInterval);
-            playAlienSound('correct');
+        function endGame() {
+            clearInterval(state.timerInterval);
+            showScreen('result-screen');
             
-            document.getElementById('quiz-screen').classList.remove('active');
-            document.getElementById('result-screen').classList.add('active');
+            const correctCount = state.answers.filter(a => a && a.correct).length;
+            const total = state.questions.length;
+            const accuracy = Math.round((correctCount / total) * 100);
 
-            const total = questions.length;
-            const correctCount = userAnswers.filter(a => a === true).length;
-            const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+            document.getElementById('final-score').textContent = state.score;
+            document.getElementById('final-coins').textContent = state.coins;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
 
-            document.getElementById('final-score').innerText = `Score: ${score}`;
-            document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
-            document.getElementById('coins-earned').innerText = `+${correctCount} Coins`;
+            // Unlock items logic
+            const unlocksDiv = document.getElementById('new-unlocks');
+            const iconsDiv = document.getElementById('unlock-icons');
+            iconsDiv.innerHTML = '';
+            
+            if (accuracy >= 50) iconsDiv.innerHTML += '👽';
+            if (accuracy >= 80) iconsDiv.innerHTML += '🏆';
+            if (accuracy >= 100) iconsDiv.innerHTML += '👑';
+
+            if (iconsDiv.innerHTML !== '') {
+                unlocksDiv.style.display = 'block';
+            } else {
+                unlocksDiv.style.display = 'none';
+            }
+            
+            playSound('click');
         }
 
-        function goHome() {
-            playAlienSound('click');
-            document.getElementById('result-screen').classList.remove('active');
-            document.getElementById('start-screen').classList.add('active');
+        function goToStart() {
+            showScreen('start-screen');
         }
 
-        function restartQuiz() {
-            playAlienSound('click');
-            startQuiz(currentMode);
+        // Modal Logic
+        function showModal(title, message) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            modal.classList.add('open');
         }
+
+        function closeModal() {
+            modal.classList.remove('open');
+        }
+
+        // Alien Pet Logic (Draggable)
+        let isDragging = false;
+        let dragOffsetX, dragOffsetY;
+
+        alienPet.addEventListener('mousedown', startDrag);
+        alienPet.addEventListener('touchstart', startDrag, {passive: false});
+
+        function startDrag(e) {
+            isDragging = true;
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            const rect = alienPet.getBoundingClientRect();
+            dragOffsetX = clientX - rect.left;
+            dragOffsetY = clientY - rect.top;
+            
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchmove', onDrag, {passive: false});
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function onDrag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            
+            let x = clientX - dragOffsetX;
+            let y = clientY - dragOffsetY;
+
+            // Boundary checks
+            x = Math.max(0, Math.min(window.innerWidth - 80, x));
+            y = Math.max(0, Math.min(window.innerHeight - 80, y));
+
+            alienPet.style.left = x + 'px';
+            alienPet.style.top = y + 'px';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', onDrag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        // Initial setup
+        showScreen('start-screen');
+
     </script>
 </body>
 </html>
