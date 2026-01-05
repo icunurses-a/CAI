@@ -1,764 +1,962 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laboratory Final - Gold Edition</title>
-<style>
-    :root {
-        --gold-light: #fff3b0;
-        --gold-mid: #ffd700;
-        --gold-dark: #b8860b;
-        --deep-bg: #0f0f0f;
-        --panel-bg: rgba(20, 20, 20, 0.95);
-        --neon-green: #39ff14;
-        --neon-red: #ff073a;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laboratory Final Exam</title>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F9E295;
+            --gold-dark: #AA8C2C;
+            --bg-dark: #1a0f00;
+            --bg-panel: #2b1d0d;
+            --text-main: #FFF8E7;
+            --accent-red: #8B0000;
+            --accent-green: #006400;
+            --font-display: 'Times New Roman', serif;
+            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    * { box-sizing: border-box; user-select: none; }
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #3d2a14 0%, #1a0f00 100%);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--deep-bg);
-        background-image: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #000 100%);
-        color: var(--gold-light);
-        overflow-x: hidden;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        /* --- SCAN LINE EFFECT --- */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            opacity: 0.5;
+            z-index: 9999;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+        }
 
-    /* --- ANIMATIONS --- */
-    @keyframes rgbFlow {
-        0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
-        20% { color: #ffff00; text-shadow: 0 0 10px #ffff00; }
-        40% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
-        60% { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
-        80% { color: #0000ff; text-shadow: 0 0 10px #0000ff; }
-        100% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
-    }
+        @keyframes scan {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
 
-    @keyframes shaky {
-        0% { transform: translate(1px, 1px) rotate(0deg); }
-        10% { transform: translate(-1px, -2px) rotate(-1deg); }
-        20% { transform: translate(-3px, 0px) rotate(1deg); }
-        30% { transform: translate(3px, 2px) rotate(0deg); }
-        40% { transform: translate(1px, -1px) rotate(1deg); }
-        50% { transform: translate(-1px, 2px) rotate(-1deg); }
-        60% { transform: translate(-3px, 1px) rotate(0deg); }
-        70% { transform: translate(3px, 1px) rotate(-1deg); }
-        80% { transform: translate(-1px, -1px) rotate(1deg); }
-        90% { transform: translate(1px, 2px) rotate(0deg); }
-        100% { transform: translate(1px, -2px) rotate(-1deg); }
-    }
+        /* --- HEADER & RGB EFFECTS --- */
+        header {
+            text-align: center;
+            padding: 20px 10px;
+            background: linear-gradient(to bottom, #000, transparent);
+            z-index: 10;
+        }
 
-    @keyframes wave {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-    }
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            margin: 0;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
 
-    @keyframes scanline {
-        0% { top: -10%; }
-        100% { top: 110%; }
-    }
+        .final-text {
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 900;
+            animation: shake-rgb 1.5s infinite alternate;
+            background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    @keyframes floatUp {
-        0% { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-    }
+        @keyframes shake-rgb {
+            0% { transform: skewX(-5deg) translateY(-2px); filter: hue-rotate(0deg); }
+            25% { transform: skewX(5deg) translateY(2px); filter: hue-rotate(90deg); }
+            50% { transform: skewX(-3deg) rotate(-2deg); filter: hue-rotate(180deg); }
+            75% { transform: skewX(3deg) rotate(2deg); filter: hue-rotate(270deg); }
+            100% { transform: skewX(-5deg) translateY(-2px); filter: hue-rotate(360deg); }
+        }
 
-    /* --- LAYOUT --- */
-    .scan-line {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        height: 5px;
-        background: var(--neon-green);
-        box-shadow: 0 0 15px var(--neon-green);
-        opacity: 0.5;
-        animation: scanline 4s linear infinite;
-        pointer-events: none;
-        z-index: 999;
-    }
+        /* --- MAIN CONTAINER --- */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+            overflow-y: auto;
+        }
 
-    header {
-        text-align: center;
-        padding: 20px;
-        z-index: 10;
-    }
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            background: rgba(43, 29, 13, 0.95);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            margin-bottom: 100px; /* Space for footer */
+        }
 
-    h1 {
-        font-size: 3rem;
-        margin: 0;
-        text-transform: uppercase;
-        font-weight: 900;
-        letter-spacing: 2px;
-    }
+        .screen.active { display: block; }
 
-    .title-main {
-        background: linear-gradient(to bottom, var(--gold-light), var(--gold-mid));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 5px var(--gold-dark));
-    }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .title-final {
-        display: inline-block;
-        animation: shaky 0.5s infinite, rgbFlow 3s linear infinite;
-        margin-left: 10px;
-    }
+        /* --- BUTTONS & UI ELEMENTS --- */
+        .btn {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            border: 1px solid var(--gold-light);
+            color: #000;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            margin: 5px;
+            display: inline-block;
+        }
 
-    /* --- SETTINGS PANEL --- */
-    #setup-panel {
-        background: var(--panel-bg);
-        border: 2px solid var(--gold-mid);
-        border-radius: 15px;
-        padding: 30px;
-        width: 90%;
-        max-width: 600px;
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-        text-align: center;
-        z-index: 20;
-    }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--gold);
+        }
 
-    .control-group {
-        margin: 20px 0;
-    }
+        .btn:active { transform: scale(0.95); }
 
-    label { font-size: 1.2rem; color: var(--gold-mid); display: block; margin-bottom: 10px; }
-    
-    input[type="range"] {
-        width: 100%;
-        accent-color: var(--gold-mid);
-    }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
 
-    .btn {
-        background: linear-gradient(180deg, var(--gold-mid), var(--gold-dark));
-        border: 2px solid var(--gold-light);
-        color: #000;
-        font-weight: bold;
-        padding: 15px 40px;
-        font-size: 1.2rem;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-        text-transform: uppercase;
-        margin: 10px;
-    }
+        .btn-secondary:hover { background: rgba(212, 175, 55, 0.2); }
 
-    .btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px var(--gold-mid);
-    }
+        .label-text { color: var(--gold); font-weight: bold; margin-bottom: 5px; display: block; }
 
-    .btn-secondary {
-        background: #333;
-        color: var(--gold-light);
-        border: 1px solid var(--gold-mid);
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
+        /* --- SETUP SCREEN --- */
+        .setup-group { margin-bottom: 20px; text-align: center; }
+        
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--gold);
+            height: 10px;
+            background: #000;
+            border-radius: 5px;
+            outline: none;
+        }
 
-    /* --- GAME INTERFACE --- */
-    #game-interface {
-        display: none;
-        width: 95%;
-        max-width: 1000px;
-        flex-direction: column;
-        align-items: center;
-        z-index: 20;
-    }
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-    .stats-bar {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        background: rgba(0,0,0,0.8);
-        border: 1px solid var(--gold-dark);
-        padding: 10px 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
+        .mode-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--gold-dark);
+            background: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-    .stat-item { display: flex; align-items: center; gap: 10px; }
-    .gold-text { color: var(--gold-mid); }
+        .mode-btn.selected {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 10px var(--gold);
+        }
 
-    .question-card {
-        background: linear-gradient(160deg, #222, #111);
-        border: 2px solid var(--gold-mid);
-        border-radius: 20px;
-        padding: 30px;
-        width: 100%;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
+        /* --- GAME SCREEN --- */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gold-dark);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
 
-    .q-text {
-        font-size: 1.4rem;
-        margin-bottom: 25px;
-        line-height: 1.5;
-        color: #fff;
-    }
+        .stat-box { display: flex; align-items: center; gap: 8px; }
+        .coin-icon { color: var(--gold); text-shadow: 0 0 5px orange; }
 
-    .options-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
+        .timer-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .timer-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 100%;
+            transition: width 1s linear;
+        }
 
-    .option {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid #444;
-        padding: 15px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        font-size: 1.1rem;
-    }
+        .question-box {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            min-height: 60px;
+        }
 
-    .option:hover {
-        background: rgba(255, 215, 0, 0.1);
-        border-color: var(--gold-mid);
-    }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
 
-    .option.correct {
-        background: rgba(57, 255, 20, 0.2);
-        border-color: var(--neon-green);
-        color: var(--neon-green);
-    }
+        .option-btn {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--gold-dark);
+            padding: 15px;
+            text-align: left;
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .option.wrong {
-        background: rgba(255, 7, 58, 0.2);
-        border-color: var(--neon-red);
-        color: var(--neon-red);
-    }
+        .option-btn:hover { background: rgba(212, 175, 55, 0.15); border-color: var(--gold); }
+        
+        .option-btn.correct {
+            background: var(--accent-green);
+            border-color: #00ff00;
+            animation: pulse-green 0.5s;
+        }
 
-    /* --- NAVIGATOR --- */
-    .navigator-btn {
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        background: var(--gold-mid);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 100;
-        box-shadow: 0 0 15px var(--gold-mid);
-    }
+        .option-btn.wrong {
+            background: var(--accent-red);
+            border-color: #ff0000;
+            animation: shake 0.4s;
+        }
 
-    .nav-grid-overlay {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.9);
-        z-index: 101;
-        padding: 50px;
-        overflow-y: auto;
-    }
+        @keyframes pulse-green { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-    .nav-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-        gap: 10px;
-        max-width: 800px;
-        margin: 0 auto;
-    }
+        /* --- NAVIGATOR --- */
+        .nav-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 20px;
+            justify-content: center;
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
 
-    .nav-item {
-        width: 50px;
-        height: 50px;
-        border: 1px solid var(--gold-dark);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        color: var(--gold-mid);
-    }
-    
-    .nav-item.answered-correct { background: var(--neon-green); color: #000; }
-    .nav-item.answered-wrong { background: var(--neon-red); color: #fff; }
+        .nav-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            background: #111;
+        }
+        .nav-dot.current { border-color: var(--gold); box-shadow: 0 0 5px var(--gold); }
+        .nav-dot.answered-correct { background: var(--accent-green); border-color: #00ff00; }
+        .nav-dot.answered-wrong { background: var(--accent-red); border-color: #ff0000; }
 
-    /* --- EXTRAS --- */
-    .pet-alien {
-        position: absolute;
-        font-size: 3rem;
-        cursor: move;
-        filter: drop-shadow(0 0 10px #0f0);
-        z-index: 50;
-        transition: transform 0.1s;
-    }
+        /* --- ALIEN PET --- */
+        #alien-pet {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            cursor: grab;
+            z-index: 1000;
+            filter: drop-shadow(0 0 10px var(--gold));
+            transition: transform 0.1s;
+            touch-action: none; /* Prevent scrolling on mobile while dragging */
+        }
+        #alien-pet:active { cursor: grabbing; transform: scale(1.1); }
+        #alien-pet svg { width: 100%; height: 100%; fill: var(--gold); pointer-events: none; }
 
-    .pet-alien:active { transform: scale(1.2); }
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            z-index: 10;
+            pointer-events: none;
+        }
 
-    .bubble-heart {
-        position: absolute;
-        font-size: 2rem;
-        color: var(--neon-red);
-        animation: floatUp 1s forwards;
-        pointer-events: none;
-        z-index: 999;
-    }
+        .footer-rgb {
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            animation: wavy-rgb 2s infinite linear;
+            background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    /* --- FOOTER --- */
-    footer {
-        margin-top: auto;
-        padding: 20px;
-        width: 100%;
-        text-align: center;
-        background: #000;
-        border-top: 1px solid var(--gold-dark);
-    }
+        @keyframes wavy-rgb {
+            0% { transform: translateY(0) rotate(-2deg); filter: hue-rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(2deg); filter: hue-rotate(180deg); }
+            100% { transform: translateY(0) rotate(-2deg); filter: hue-rotate(360deg); }
+        }
 
-    .copyright {
-        font-family: 'Courier New', monospace;
-        font-size: 1.5rem;
-        font-weight: bold;
-        display: inline-block;
-        animation: rgbFlow 4s linear infinite;
-    }
-    
-    .wavy-char {
-        display: inline-block;
-        animation: wave 1s ease-in-out infinite;
-    }
+        /* --- PARTICLES --- */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            font-size: 1.5rem;
+            z-index: 2000;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
 
-    /* --- RESULT MODAL --- */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--panel-bg);
-        border: 4px solid var(--gold-mid);
-        padding: 40px;
-        text-align: center;
-        z-index: 200;
-        border-radius: 20px;
-        box-shadow: 0 0 50px var(--gold-mid);
-    }
+        /* --- RESULTS SCREEN --- */
+        .result-card {
+            text-align: center;
+        }
+        .score-display {
+            font-size: 3rem;
+            color: var(--gold);
+            text-shadow: 0 0 20px var(--gold);
+            margin: 20px 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+        }
 
-    /* Explainer text */
-    .explainer {
-        margin-top: 15px;
-        padding: 10px;
-        background: rgba(255,255,255,0.1);
-        border-left: 3px solid var(--gold-mid);
-        font-style: italic;
-        display: none;
-        font-size: 0.9rem;
-    }
-</style>
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            .final-text { font-size: 2.2rem; }
+            .options-grid { gap: 10px; }
+            .option-btn { padding: 12px; font-size: 0.9rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="scan-line"></div>
+    <div class="scan-line"></div>
 
-<header>
-    <h1><span class="title-main">LABORATORY</span> <span class="title-final">FINAL</span></h1>
-</header>
+    <header>
+        <h1>Laboratory <span class="final-text">FINAL</span></h1>
+    </header>
 
-<div id="setup-panel">
-    <h2 style="color:var(--gold-mid)">EXAM CONFIGURATION</h2>
-    
-    <div class="control-group">
-        <label>Game Mode</label>
-        <button class="btn btn-secondary" onclick="setMode('study')" id="btn-study">Study Mode (Instant Feedback)</button>
-        <button class="btn btn-secondary" onclick="setMode('exam')" id="btn-exam">Exam Mode (Timed)</button>
-    </div>
-
-    <div class="control-group">
-        <label>Number of Questions: <span id="q-count-disp">50</span></label>
-        <input type="range" id="q-slider" min="10" max="200" value="50" oninput="updateSlider(this.value)">
-    </div>
-
-    <div class="control-group">
-        <label>Extra Features</label>
-        <div style="font-size: 0.9rem; color: #aaa;">Shuffle • Aliens • Coin Collection • Gold Theme</div>
-    </div>
-
-    <button class="btn" onclick="startTest()">START LAB TEST</button>
-</div>
-
-<div id="game-interface">
-    <div class="stats-bar">
-        <div class="stat-item">Q: <span id="current-q">1</span>/<span id="total-q">50</span></div>
-        <div class="stat-item">⏳ <span id="timer">00:00</span></div>
-        <div class="stat-item">🪙 <span id="coins" class="gold-text">0</span></div>
-        <div class="stat-item">🏆 <span id="score">0</span></div>
-        <button class="btn-secondary" style="padding: 5px 15px;" onclick="endTest()">END</button>
-    </div>
-
-    <div class="question-card" id="q-card">
-        <div class="q-text" id="q-text">Loading Question...</div>
-        <div class="options-grid" id="options-container">
-            </div>
-        <div class="explainer" id="explainer-text"></div>
-        <div style="margin-top:20px; text-align:right;">
-             <button class="btn-secondary" id="next-btn" onclick="nextQuestion()" style="display:none;">Next ➡</button>
-        </div>
-    </div>
-</div>
-
-<div class="navigator-btn" onclick="toggleNav()">🗺️</div>
-<div class="nav-grid-overlay" id="nav-overlay">
-    <h2 style="text-align:center; color:var(--gold-mid)">QUESTION NAVIGATOR</h2>
-    <div class="nav-grid" id="nav-grid"></div>
-    <div style="text-align:center; margin-top:20px;">
-        <button class="btn" onclick="toggleNav()">CLOSE</button>
-    </div>
-</div>
-
-<div class="modal" id="result-modal">
-    <h2 class="title-final" style="font-size:2.5rem">TEST COMPLETE</h2>
-    <p style="font-size:1.5rem">Score: <span id="final-score" class="gold-text"></span>%</p>
-    <p>Coins Earned: <span id="final-coins"></span> 🪙</p>
-    <p id="rank-msg"></p>
-    <button class="btn" onclick="location.reload()">RESTART</button>
-</div>
-
-<div class="pet-alien" id="alien1" style="top: 100px; left: 50px;">👽</div>
-<div class="pet-alien" id="alien2" style="top: 150px; right: 50px;">👾</div>
-
-<footer>
-    <div class="copyright" id="copyright"></div>
-</footer>
-
-<script>
-    /* --- DATA SOURCE (Derived from Text) --- */
-    const rawQuestions = [
-        { q: "What is the primary function of the Immune System?", o: ["Digesting food", "Protecting against infections and foreign substances", "Regulating body temperature", "Transporting oxygen"], a: 1, e: "The immune system is responsible for protecting us against infections and foreign substances." },
-        { q: "Which cell type is considered the 'First Responder' producing IgM antibodies?", o: ["T Cell", "B Cell", "Macrophage", "Plasma Cell"], a: 1, e: "IgM is the first antibody produced during an initial immune response." },
-        { q: "What do Basophils and Eosinophils release to attract other immune cells?", o: ["Insulin", "Histamine", "Hemoglobin", "Adrenaline"], a: 1, e: "They release signaling and inflammatory molecules like histamine." },
-        { q: "Which T cells coordinate immune responses by releasing cytokines?", o: ["Cytotoxic T cells (CD8+)", "Helper T cells (CD4+)", "Natural Killer Cells", "Memory B Cells"], a: 1, e: "Helper T cells (CD4+) coordinate responses by activating B cells and macrophages." },
-        { q: "Which antibody is the most abundant in blood and provides long-term immunity?", o: ["IgM", "IgA", "IgG", "IgE"], a: 2, e: "IgG is the most abundant (~75%) and provides long-term immunity." },
-        { q: "Which antibody is found in mucus, saliva, tears, and breast milk?", o: ["IgG", "IgE", "IgA", "IgM"], a: 2, e: "IgA protects mucosal surfaces and is found in secretions." },
-        { q: "Which antibody increases during allergic reactions and parasitic infections?", o: ["IgD", "IgE", "IgG", "IgM"], a: 1, e: "IgE binds to mast cells and triggers histamine release during allergies." },
-        { q: "What does the 'A' in the mnemonic GAMED stand for?", o: ["Allergy", "Adaptive", "At mucosal surfaces", "Antibody"], a: 2, e: "In GAMED, A stands for IgA, found At mucosal surfaces." },
-        { q: "Passive natural immunity occurs when:", o: ["A person is vaccinated", "Antibodies pass from mother to fetus via placenta", "A person recovers from an infection", "White blood cells attack bacteria"], a: 1, e: "Passive natural immunity involves antibodies passing from mother to fetus/infant." },
-        { q: "Which virus causes Acquired Immunodeficiency Syndrome (AIDS)?", o: ["HPV", "HIV", "Influenza", "Hepatitis B"], a: 1, e: "HIV infects CD4+ T cells leading to AIDS." },
-        { q: "What is the normal lifespan of Red Blood Cells?", o: ["8-12 days", "24 hours", "120 days", "1 year"], a: 2, e: "Standard RBC lifespan is approximately 120 days (though platelets are 8-12 days)." },
-        { q: "A low platelet count is known as:", o: ["Thrombocytosis", "Leukopenia", "Anemia", "Thrombocytopenia"], a: 3, e: "Thrombocytopenia is a low platelet count, risking excessive bleeding." },
-        { q: "Which tube color is used for Whole Blood collected in EDTA?", o: ["Red", "Green", "Lavender", "Blue"], a: 2, e: "Lavender top tubes contain EDTA for whole blood specimens." },
-        { q: "In ABO blood grouping, who is the universal donor?", o: ["Group A", "Group B", "Group AB", "Group O"], a: 3, e: "Group O cells lack A/B antigens." },
-        { q: "Hemolytic Disease of the Newborn usually occurs when:", o: ["Mother is Rh+, Baby is Rh-", "Mother is Rh-, Baby is Rh+", "Both are Rh-", "Both are Rh+"], a: 1, e: "It happens when an Rh- negative mother carries an Rh+ positive baby." },
-        { q: "Which rare blood phenotype lacks the H antigen?", o: ["Bombay Phenotype", "O Negative", "AB Positive", "Kell Null"], a: 0, e: "The Bombay blood group (Oh) lacks the H antigen." },
-        { q: "How many pairs of chromosomes do humans normally have?", o: ["23 pairs", "46 pairs", "22 pairs", "44 pairs"], a: 0, e: "Humans have 23 pairs (46 total) chromosomes." },
-        { q: "Cystic Fibrosis follows which inheritance pattern?", o: ["Autosomal Dominant", "Autosomal Recessive", "X-Linked", "Mitochondrial"], a: 1, e: "Cystic fibrosis is an Autosomal Recessive disorder." },
-        { q: "What is the single most important measure to break the chain of infection?", o: ["Wearing a mask", "Hand Hygiene", "Vaccination", "Sterilization"], a: 1, e: "Hand hygiene is the single most important measure." },
-        { q: "Most hospital clinical laboratories operate at which Biosafety Level?", o: ["BSL-1", "BSL-2", "BSL-3", "BSL-4"], a: 1, e: "BSL-2 is standard for most hospital labs handling moderate-risk pathogens." },
-        { q: "Which mask is required for airborne precautions (e.g., TB)?", o: ["Surgical Mask", "Cloth Mask", "N95 Respirator", "Face Shield only"], a: 2, e: "An N95 respirator is required for airborne agents." },
-        { q: "How long should you flush a mucous membrane exposure (splash)?", o: ["1 minute", "5 minutes", "15 minutes", "30 seconds"], a: 2, e: "Flush thoroughly with water or saline for 15 minutes." },
-        { q: "HIV PEP is most effective when started within:", o: ["2 hours", "24 hours", "72 hours", "1 week"], a: 0, e: "PEP is most effective when started within 2 hours." },
-        { q: "Which of the following is NOT an acceptable patient identifier?", o: ["Full Name", "Date of Birth", "Room Number", "Medical Record Number"], a: 2, e: "A patient’s room number must never be used as an identifier." },
-        { q: "A throat swab is used to detect infections in the:", o: ["Lower respiratory tract", "Upper respiratory tract", "Bloodstream", "Urinary tract"], a: 1, e: "Throat swabs sample the upper respiratory tract." },
-        { q: "What is the optimal puncture depth for an adult fingerstick?", o: ["1-2 mm", "2-3 mm", "4-5 mm", "Deep as possible"], a: 1, e: "Puncture depth should be 2-3 mm for adults." },
-        { q: "Which antiseptic is preferred for cleaning a capillary puncture site?", o: ["Iodine", "70% Alcohol", "Hydrogen Peroxide", "Soap only"], a: 1, e: "Clean with 70% alcohol and allow to dry." },
-        { q: "Why must the first drop of blood be wiped away during capillary collection?", o: ["It contains tissue fluid", "It is too dark", "It contains too much oxygen", "It is clotted"], a: 0, e: "The first drop contains tissue fluid which can dilute the sample." },
-        { q: "What does POCT stand for?", o: ["Post-Operative Care Treatment", "Point-of-Care Testing", "Primary Oncology Care Team", "Patient Observed Clinical Trial"], a: 1, e: "Point-of-Care Testing." },
-        { q: "Which Immunoglobulin crosses the placenta?", o: ["IgM", "IgA", "IgG", "IgE"], a: 2, e: "IgG crosses the placenta to protect the fetus." },
-        { q: "Neutrophils are increased in which type of infection?", o: ["Viral", "Bacterial", "Parasitic", "Fungal"], a: 1, e: "Neutrophils increase in bacterial infections." },
-        { q: "Eosinophils increase in:", o: ["Bacterial infections", "Viral infections", "Allergies and Parasites", "Tuberculosis"], a: 2, e: "Eosinophils respond to allergies and parasites." },
-        { q: "What is the fluid portion of blood called?", o: ["Serum", "Plasma", "Lymph", "Water"], a: 1, e: "Blood = 55% Plasma + 45% Formed elements." },
-        { q: "Which genetic mutation creates a premature stop codon?", o: ["Missense", "Nonsense", "Silent", "Frameshift"], a: 1, e: "Nonsense mutations create a premature stop codon." },
-        { q: "BRCA1 mutations significantly increase the risk of:", o: ["Lung Cancer", "Breast and Ovarian Cancer", "Liver Cancer", "Leukemia"], a: 1, e: "BRCA1 is linked to Breast and Ovarian cancer risk." },
-        { q: "What creates protective barriers between people and pathogens?", o: ["Biosecurity", "Biosafety", "Bioethics", "Biochemistry"], a: 1, e: "Biosafety creates protective barriers." },
-        { q: "Which Hepatitis virus has no PEP available?", o: ["Hepatitis A", "Hepatitis B", "Hepatitis C", "All have PEP"], a: 2, e: "Hepatitis C has no PEP available; monitoring is required." },
-        { q: "A Midstream Urine Specimen is also known as:", o: ["Dirty catch", "Clean-catch", "First void", "24-hour collection"], a: 1, e: "Midstream is known as Clean-catch." },
-        { q: "CSF is collected via which procedure?", o: ["Venipuncture", "Lumbar Puncture", "Biopsy", "Thoracentesis"], a: 1, e: "CSF is collected through a lumbar puncture." },
-        { q: "Who discovered the Bombay Blood Group?", o: ["Landsteiner", "Dr. Y. M. Bhende", "Pasteur", "Koch"], a: 1, e: "Discovered by Dr. Y. M. Bhende in Bombay." }
-    ];
-
-    /* --- GAME VARIABLES --- */
-    let questions = [];
-    let currentQIndex = 0;
-    let score = 0;
-    let coins = 0;
-    let mode = 'study';
-    let timerInterval;
-    let timeElapsed = 0;
-    let selectedAnswer = null;
-    
-    // Audio Context for Alien SFX
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    function playAlienSound(type) {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        if (type === 'correct') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
-        } else if (type === 'wrong') {
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.3);
-        } else if (type === 'alien') {
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.2);
-            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.2);
-        }
-    }
-
-    /* --- INITIALIZATION --- */
-    function setMode(m) {
-        mode = m;
-        document.getElementById('btn-study').style.borderColor = m === 'study' ? 'var(--neon-green)' : 'var(--gold-mid)';
-        document.getElementById('btn-exam').style.borderColor = m === 'exam' ? 'var(--neon-green)' : 'var(--gold-mid)';
-    }
-
-    function updateSlider(val) {
-        document.getElementById('q-count-disp').innerText = val;
-    }
-
-    function generateCopyright() {
-        const text = "AMER ALSHARIF 2026";
-        const container = document.getElementById('copyright');
-        container.innerHTML = '';
-        [...text].forEach((char, i) => {
-            const span = document.createElement('span');
-            span.innerText = char === ' ' ? '\u00A0' : char;
-            span.className = 'wavy-char';
-            span.style.animationDelay = `${i * 0.1}s`;
-            span.style.color = `hsl(${i * 20}, 100%, 50%)`;
-            container.appendChild(span);
-        });
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-
-    /* --- GAME LOGIC --- */
-    function startTest() {
-        // Setup Questions
-        const qCount = parseInt(document.getElementById('q-slider').value);
-        let pool = [...rawQuestions];
-        
-        // If requested more than available, duplicate and shuffle to simulate load
-        while (pool.length < qCount) {
-            pool = pool.concat(rawQuestions);
-        }
-        
-        shuffleArray(pool);
-        questions = pool.slice(0, qCount);
-        
-        // Reset Stats
-        currentQIndex = 0;
-        score = 0;
-        coins = 0;
-        timeElapsed = 0;
-        
-        // UI Switch
-        document.getElementById('setup-panel').style.display = 'none';
-        document.getElementById('game-interface').style.display = 'flex';
-        document.getElementById('total-q').innerText = questions.length;
-        
-        // Init Nav Grid
-        const navGrid = document.getElementById('nav-grid');
-        navGrid.innerHTML = '';
-        questions.forEach((_, i) => {
-            const btn = document.createElement('div');
-            btn.className = 'nav-item';
-            btn.innerText = i + 1;
-            btn.id = `nav-${i}`;
-            btn.onclick = () => {
-                // Only jump if not currently locked or in exam mode
-                if (mode === 'study') {
-                    currentQIndex = i;
-                    loadQuestion();
-                    toggleNav();
-                }
-            };
-            navGrid.appendChild(btn);
-        });
-
-        startTimer();
-        loadQuestion();
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            timeElapsed++;
-            const m = Math.floor(timeElapsed / 60).toString().padStart(2,'0');
-            const s = (timeElapsed % 60).toString().padStart(2,'0');
-            document.getElementById('timer').innerText = `${m}:${s}`;
-        }, 1000);
-    }
-
-    function loadQuestion() {
-        const q = questions[currentQIndex];
-        document.getElementById('current-q').innerText = currentQIndex + 1;
-        document.getElementById('q-text').innerText = q.q;
-        document.getElementById('explainer-text').style.display = 'none';
-        document.getElementById('next-btn').style.display = 'none';
-        
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        
-        // Create options with original index tracking
-        let ops = q.o.map((txt, idx) => ({ txt, idx }));
-        if (mode === 'study') shuffleArray(ops); // Shuffle options only in study for fun
-
-        ops.forEach(op => {
-            const div = document.createElement('div');
-            div.className = 'option';
-            div.innerText = op.txt;
-            div.onclick = () => checkAnswer(div, op.idx, q.a, q.e);
-            container.appendChild(div);
-        });
-        
-        selectedAnswer = null;
-    }
-
-    function checkAnswer(el, selectedIdx, correctIdx, explanation) {
-        if (selectedAnswer !== null) return; // Prevent double clicking
-        selectedAnswer = selectedIdx;
-
-        const isCorrect = selectedIdx === correctIdx;
-        const navItem = document.getElementById(`nav-${currentQIndex}`);
-
-        if (isCorrect) {
-            el.classList.add('correct');
-            score++;
-            coins += 10;
-            document.getElementById('score').innerText = score;
-            document.getElementById('coins').innerText = coins;
-            playAlienSound('correct');
-            spawnHearts(el);
-            navItem.classList.add('answered-correct');
-        } else {
-            el.classList.add('wrong');
-            playAlienSound('wrong');
-            navItem.classList.add('answered-wrong');
+    <main>
+        <!-- SETUP SCREEN -->
+        <div id="setup-screen" class="screen active">
+            <h2 style="text-align: center; color: var(--gold);">Exam Configuration</h2>
             
-            // Highlight correct answer in study mode
-            if (mode === 'study') {
-                const opts = document.querySelectorAll('.option');
-                // Find element with correct text (since we shuffled logic is tricky, better to just show explanation)
-                // Simplified: Just show explanation
+            <div class="setup-group">
+                <span class="label-text">Select Mode:</span>
+                <div class="mode-toggle">
+                    <div class="mode-btn selected" onclick="setMode('study')" id="mode-study">Study</div>
+                    <div class="mode-btn" onclick="setMode('exam')" id="mode-exam">Exam</div>
+                </div>
+                <p id="mode-desc" style="font-size: 0.9rem; color: #aaa;">Review answers as you go. No time limit.</p>
+            </div>
+
+            <div class="setup-group">
+                <span class="label-text">Number of Questions: <span id="q-count-val" style="color:white;">50</span></span>
+                <input type="range" id="q-count-slider" min="10" max="200" value="50" oninput="updateCountDisplay(this.value)">
+            </div>
+
+            <div class="setup-group">
+                <button class="btn" onclick="startGame()">Start Mission</button>
+            </div>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="screen">
+            <div class="hud">
+                <div class="stat-box"><span class="coin-icon">●</span> <span id="score">0</span></div>
+                <div class="stat-box"><span id="q-progress">1/50</span></div>
+                <div class="stat-box" id="timer-box">00:00</div>
+            </div>
+
+            <div class="timer-bar" id="timer-bar-container"><div class="timer-fill" id="timer-fill"></div></div>
+
+            <div class="question-box" id="question-text">
+                Loading question...
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Options injected here -->
+            </div>
+
+            <div class="nav-grid" id="nav-grid">
+                <!-- Navigation dots injected here -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                 <button class="btn btn-secondary" onclick="endGame()">End Test</button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="result-screen" class="screen">
+            <div class="result-card">
+                <h2>Mission Complete</h2>
+                <div class="score-display" id="final-score">0%</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div style="color:var(--gold)">Correct</div>
+                        <div id="res-correct" style="font-size:1.5rem">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div style="color:#ff4444">Wrong</div>
+                        <div id="res-wrong" style="font-size:1.5rem">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div style="color:#aaa">Coins Earned</div>
+                        <div id="res-coins" style="font-size:1.5rem; color:var(--gold)">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div style="color:#aaa">Time Taken</div>
+                        <div id="res-time" style="font-size:1.5rem">00:00</div>
+                    </div>
+                </div>
+
+                <div id="feedback-msg" style="margin-bottom: 20px; font-style: italic;"></div>
+
+                <button class="btn" onclick="location.reload()">Play Again</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ALIEN PET -->
+    <div id="alien-pet">
+        <svg viewBox="0 0 100 100">
+            <path d="M20,60 Q10,40 30,20 Q50,0 70,20 Q90,40 80,60 Q90,80 70,90 Q50,100 30,90 Q10,80 20,60 Z" />
+            <circle cx="35" cy="40" r="8" fill="#000" />
+            <circle cx="65" cy="40" r="8" fill="#000" />
+            <ellipse cx="50" cy="60" rx="10" ry="15" fill="#AA8C2C" />
+            <path d="M45,55 Q50,65 55,55" stroke="#000" stroke-width="2" fill="none" />
+            <path d="M20,30 L10,10 M30,20 L20,0 M80,30 L90,10 M70,20 L80,0" stroke="#D4AF37" stroke-width="4" />
+        </svg>
+    </div>
+
+    <footer>
+        <span class="footer-rgb">AMER ALSHARIF 2026</span>
+    </footer>
+
+    <script>
+        /* --- QUESTION BANK GENERATED FROM DOCUMENT --- */
+        const rawQuestions = [
+            // Immune System
+            { q: "What is the primary function of the Immune System?", a: ["Digestion of food", "Pumping blood", "Protecting against infections and foreign substances", "Regulating body temperature"], c: 2 },
+            { q: "Which cells are collectively known as phagocytes?", a: ["Basophils and eosinophils", "Neutrophils and macrophages", "B cells and T cells", "Erythrocytes and thrombocytes"], c: 1 },
+            { q: "What do Basophils and Eosinophils release to attract other immune cells?", a: ["Histamine and inflammatory molecules", "Oxygen and nutrients", "Insulin and glucagon", "Antibodies only"], c: 0 },
+            { q: "What is the role of Phagocytes?", a: ["To pump blood", "Engulf and digest harmful microorganisms and debris", "To produce antibodies", "To carry oxygen"], c: 1 },
+            
+            // T Cells
+            { q: "Which T cells coordinate immune responses by releasing cytokines?", a: ["Cytotoxic T cells (CD8+)", "Helper T cells (CD4+)", "B cells", "Natural Killer cells"], c: 1 },
+            { q: "Which cells recognize and destroy virus-infected or cancerous cells?", a: ["Helper T cells (CD4+)", "Cytotoxic T cells (CD8+)", "Basophils", "Platelets"], c: 1 },
+
+            // Antibodies
+            { q: "Which antibody is the major circulating antibody (~75%)?", a: ["IgA", "IgM", "IgG", "IgE"], c: 2 },
+            { q: "Which antibody provides long-term immunity and can cross the placenta?", a: ["IgA", "IgM", "IgG", "IgD"], c: 2 },
+            { q: "Which antibody is found in mucus, saliva, tears, and breast milk?", a: ["IgG", "IgA", "IgM", "IgD"], c: 1 },
+            { q: "Which antibody is the 'First Responder' during initial infection?", a: ["IgG", "IgA", "IgM", "IgE"], c: 2 },
+            { q: "Which antibody is excellent at agglutination (clumping pathogens)?", a: ["IgG", "IgA", "IgM", "IgE"], c: 2 },
+            { q: "Which antibody is involved in allergy and parasite defense?", a: ["IgG", "IgM", "IgE", "IgD"], c: 2 },
+            { q: "Which antibody binds to mast cells triggering histamine release?", a: ["IgG", "IgM", "IgE", "IgD"], c: 2 },
+            { q: "Which antibody acts mainly as a B-cell receptor?", a: ["IgG", "IgD", "IgM", "IgA"], c: 1 },
+            
+            // Adaptive Immunity
+            { q: "In naturally acquired active immunity, what enters the body?", a: ["Preformed antibodies", "Antigens naturally", "Vaccines", "Immune serum"], c: 1 },
+            { q: "Which type of immunity involves antibodies passing from mother to fetus via placenta?", a: ["Naturally acquired active", "Naturally acquired passive", "Artificially acquired active", "Artificially acquired passive"], c: 1 },
+            { q: "Vaccination results in which type of immunity?", a: ["Naturally acquired active", "Artificially acquired active", "Naturally acquired passive", "Artificially acquired passive"], c: 1 },
+            { q: "Injection of preformed antibodies (immune serum) is an example of:", a: ["Artificially acquired passive immunity", "Artificially acquired active immunity", "Natural active immunity", "Natural passive immunity"], c: 0 },
+
+            // HIV/AIDS
+            { q: "HIV specifically infects which cells?", a: ["Red blood cells", "Platelets", "CD4+ T cells, macrophages, and dendritic cells", "Neurons"], c: 2 },
+            { q: "What therapy suppresses viral replication and maintains CD4+ T cell counts?", a: ["Chemotherapy", "Antiretroviral therapy (ART)", "Radiation", "Antibiotics"], c: 1 },
+            
+            // Blood Basics
+            { q: "What percentage of blood is plasma?", a: ["45%", "55%", "10%", "90%"], c: 1 },
+            { q: "Which formed elements are included in the 45% of blood?", a: ["Water and proteins", "RBCs, WBCs, and Platelets", "Electrolytes only", "Nutrients"], c: 1 },
+            { q: "What is the shape of Red Blood Cells (Erythrocytes)?", a: ["Spherical", "Biconcave", "Cuboidal", "Irregular"], c: 1 },
+            
+            // WBCs
+            { q: "Which WBCs are Granulocytes?", a: ["Lymphocytes and Monocytes", "Neutrophils, Eosinophils, Basophils", "Platelets and RBCs", "T cells and B cells"], c: 1 },
+            { q: "Which WBC is the most abundant (45-75%)?", a: ["Neutrophils", "Lymphocytes", "Eosinophils", "Monocytes"], c: 0 },
+            { q: "An increase in Neutrophils is called:", a: ["Neutropenia", "Neutrophilia", "Lymphocytosis", "Eosinophilia"], c: 1 },
+            { q: "Which WBCs respond to parasitic infections and allergic reactions?", a: ["Neutrophils", "Basophils", "Eosinophils", "Monocytes"], c: 2 },
+            { q: "Which cells release histamine and heparin?", a: ["Eosinophils", "Neutrophils", "Basophils", "Monocytes"], c: 2 },
+            { q: "Monocytes become which cells in tissues?", a: ["Neutrophils", "Macrophages", "Plasma cells", "Mast cells"], c: 1 },
+            { q: "Which WBCs produce antibodies?", a: ["T cells", "B cells", "Natural Killer cells", "Monocytes"], c: 1 },
+            { q: "Which WBCs provide cellular immunity (T cells)?", a: ["Lymphocytes", "Neutrophils", "Eosinophils", "Basophils"], c: 0 },
+            { q: "What is Leukocytosis?", a: ["Increase in total WBC count", "Decrease in total WBC count", "Increase in RBCs", "Decrease in Platelets"], c: 0 },
+            { q: "Uncontrolled proliferation of abnormal WBCs is known as:", a: ["Leukopenia", "Leukemia", "Anemia", "Thrombocytosis"], c: 1 },
+
+            // Platelets
+            { q: "What is the normal platelet count per mm³?", a: ["150,000–400,000", "10,000–50,000", "500,000–1,000,000", "1,000–5,000"], c: 0 },
+            { q: "What is the lifespan of platelets?", a: ["8-12 days", "120 days", "24 hours", "1 year"], c: 0 },
+            { q: "Thrombocytopenia refers to:", a: ["High platelet count", "Low platelet count", "High WBC count", "Low RBC count"], c: 1 },
+            
+            // Blood Transfusion
+            { q: "Which tube is used for collecting whole blood for hematology?", a: ["Red top", "EDTA (lavender top)", "Green top", "Blue top"], c: 1 },
+            
+            // Blood Groups
+            { q: "Who discovered the ABO blood groups?", a: ["Landsteiner", "Pasteur", "Fleming", "Darwin"], c: 0 },
+            { q: "The Rh system includes which most important antigen?", a: ["A antigen", "B antigen", "D antigen", "H antigen"], c: 2 },
+            { q: "Rh antibodies are usually of which type?", a: ["IgA", "IgM", "IgG", "IgE"], c: 2 },
+            { q: "Hemolytic Disease of the Newborn (Erythroblastosis Fetalis) occurs when:", a: ["Mother is Rh+, Baby is Rh-", "Mother is Rh-, Baby is Rh+", "Mother is Type O, Baby is Type A", "Father is Rh-"], c: 1 },
+            { q: "What is the Bombay Blood Group also known as?", a: ["Group A", "Group B", "Oh Group", "Group O"], c: 2 },
+            { q: "Individuals with Bombay blood group produce antibodies against:", a: ["A antigen only", "B antigen only", "H antigen (plus A and B)", "D antigen"], c: 2 },
+
+            // Anticoagulants
+            { q: "Who discovered Citrate-Glucose in 1916?", a: ["Rous and Turner", "Loutit and Mollison", "Gibson", "Pasteur"], c: 0 },
+            { q: "Which anticoagulant contains Adenine?", a: ["ACD", "CPD", "CPDA-1", "Heparin"], c: 2 },
+            { q: "How much CPDA-1 is used to preserve 100 mL of blood?", a: ["10 mL", "14 mL", "20 mL", "50 mL"], c: 1 },
+
+            // Genetics
+            { q: "How many chromosomes do humans have?", a: ["23", "46", "44", "48"], c: 1 },
+            { q: "What is the difference between Genotype and Phenotype?", a: ["Genotype is physical, Phenotype is genetic", "Genotype is genetic makeup, Phenotype is observable characteristics", "They are the same", "Phenotype determines genotype"], c: 1 },
+            { q: "In Autosomal Dominant inheritance, what is the risk of transmission to offspring?", a: ["25%", "50%", "100%", "0%"], c: 1 },
+            { q: "Which disease follows X-linked inheritance?", a: ["Cystic fibrosis", "Hemophilia", "Huntington disease", "Sickle cell disease"], c: 1 },
+            { q: "BRCA1/2 mutations follow which pattern?", a: ["Autosomal Dominant", "Autosomal Recessive", "X-Linked", "Mitochondrial"], c: 0 },
+            { q: "A missense mutation results in:", a: ["A premature stop codon", "A different amino acid", "No change", "Deletion of a gene"], c: 1 },
+            { q: "Why is informed consent important in genetic testing?", a: ["Ethically and psychologically", "Just for legal paperwork", "Only for billing", "It is not important"], c: 0 },
+
+            // Infection Control
+            { q: "What is the single most important measure to prevent infection spread?", a: ["Wearing gloves", "Hand hygiene", "Isolation", "Vaccination"], c: 1 },
+            { q: "The Chain of Infection includes 6 elements. Breaking any link stops:", a: ["The healing process", "Transmission", "The doctor's orders", "Medication effectiveness"], c: 1 },
+            { q: "What PPE is required for splash risk to eyes?", a: ["Gloves only", "Masks, Goggles/Face shield", "Gown only", "Shoe covers"], c: 1 },
+            { q: "When should you wear a gown?", a: ["For all patient contact", "When splashes or extensive contact anticipated", "Only in the OR", "Never"], c: 1 },
+            
+            // Biosafety
+            { q: "What is the purpose of Biosafety?", a: ["To decorate the lab", "To prevent exposure to biohazards", "To clean floors", "To organize files"], c: 1 },
+            { q: "Most hospital clinical laboratories operate at which Biosafety Level?", a: ["BSL-1", "BSL-2", "BSL-3", "BSL-4"], c: 1 },
+            { q: "Which agents are handled in BSL-4?", a: ["E. coli K-12", "Staphylococcus aureus", "Ebola, Marburg", "Influenza"], c: 2 },
+            
+            // Sharps & Exposure
+            { q: "What is the primary purpose of Safety-Engineered Devices?", a: ["Needle stick prevention", "Cost saving", "Faster testing", "Better visibility"], c: 0 },
+            { q: "After a needlestick, when is HIV PEP most effective?", a: ["Within 2 hours", "After 24 hours", "After 1 week", "Immediately after 1 month"], c: 0 },
+            { q: "First aid for a mucous membrane exposure (splash to eyes):", a: ["Wash with soap", "Flush thoroughly with water/saline for 15 mins", "Apply alcohol", "Cover with bandage"], c: 1 },
+
+            // Patient ID
+            { q: "Which of the following is a valid patient identifier?", a: ["Room number", "Bed number", "Date of Birth", "Favorite color"], c: 2 },
+            { q: "Patient identification must be verified before:", a: ["Cleaning the room", "Administration of medications, transfusion, and collection of specimens", "Visiting hours", "Meal time"], c: 1 },
+
+            // Specimen Collection
+            { q: "What is the most common blood sample for laboratory testing?", a: ["Venous blood", "Arterial blood", "Capillary blood", "Bone marrow"], c: 0 },
+            { q: "Arterial blood is mainly used for:", a: ["CBC", "ABG analysis", "Urinalysis", "Glucose monitoring"], c: 1 },
+            { q: "Midstream Clean-Catch urine is collected to:", a: ["Prevent contamination", "Increase volume", "Test for drugs only", "Save time"], c: 0 },
+            { q: "Sputum is a sample from:", a: ["Lungs (coughed up)", "Kidneys", "Stomach", "Veins"], c: 0 },
+            { q: "CSF is collected via:", a: ["Venipuncture", "Lumbar puncture", "Arterial stick", "Nasal swab"], c: 1 },
+            { q: "Nasopharyngeal swab is an example of:", a: ["Lower respiratory specimen", "Upper respiratory specimen", "Blood specimen", "Urine specimen"], c: 1 },
+
+            // POCT
+            { q: "What does POCT stand for?", a: ["Point of Care Testing", "Patient Oriented Care Team", "Pathology Of Clinical Testing", "Point of Collection Technique"], c: 0 },
+            { q: "When collecting capillary blood for glucose, the blood comes from:", a: ["Artery", "Vein", "Capillaries", "Lymph"], c: 2 },
+            { q: "Why should the first drop of capillary blood be wiped away?", a: ["It is too big", "It contains tissue fluid that can affect results", "It is clotted", "It is dirty"], c: 1 },
+            { q: "What is the recommended action to warm a capillary puncture site?", a: ["3-5 minutes with warm compress", "Rub vigorously with alcohol", "Apply ice", "Do not warm"], c: 0 },
+            { q: "Which cardiac marker enables rapid diagnosis of acute myocardial infarction in POCT?", a: ["Glucose", "Troponin", "Hemoglobin", "INR"], c: 1 },
+            { q: "Quality Assurance in POCT includes:", a: ["Daily calibration checks", "Operator competency", "Preventive maintenance", "All of the above"], c: 3 }
+        ];
+
+        // Expand to 200 questions safely
+        const questionBank = [];
+        for (let i = 0; i < 200; i++) {
+            const original = rawQuestions[i % rawQuestions.length];
+            // Create deep copy to avoid reference issues
+            let qObj = {
+                q: original.q,
+                a: Array.isArray(original.a) ? [...original.a] : [original.a, "Option B", "Option C", "Option D"],
+                c: original.c
+            };
+            // Ensure answer index is valid
+            if (qObj.c >= qObj.a.length) qObj.c = 0;
+            questionBank.push(qObj);
+        }
+
+        /* --- GAME STATE --- */
+        let currentMode = 'study'; 
+        let totalQuestions = 50;
+        let gameQuestions = [];
+        let currentQIndex = 0;
+        let score = 0;
+        let coins = 0;
+        let userAnswers = []; 
+        let timerInterval;
+        let timeElapsed = 0;
+        let examDuration = 60 * 60; 
+        let isTimeAttack = false;
+        let questionStartTime = 0;
+        let audioCtx = null;
+
+        /* --- AUDIO SYSTEM --- */
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
         }
 
-        if (mode === 'study') {
-            const expBox = document.getElementById('explainer-text');
-            expBox.innerHTML = `<strong>Explanation:</strong> ${explanation}`;
-            expBox.style.display = 'block';
-            document.getElementById('next-btn').style.display = 'inline-block';
-        } else {
-            // Exam mode: Auto advance after short delay
-            setTimeout(() => nextQuestion(), 1000);
+        function playSound(type) {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'correct') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.linearRampToValueAtTime(800, now + 0.1);
+                osc.frequency.linearRampToValueAtTime(1200, now + 0.2);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.3);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            }
         }
-    }
 
-    function spawnHearts(element) {
-        const rect = element.getBoundingClientRect();
-        for(let i=0; i<5; i++) {
-            const heart = document.createElement('div');
-            heart.innerText = "❤️"; // Bubble heart
-            heart.className = 'bubble-heart';
-            heart.style.left = (rect.left + Math.random() * rect.width) + 'px';
-            heart.style.top = rect.top + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 1000); // Remove after 1s (5s in prompt but 1s looks better for UI flow)
+        /* --- UI LOGIC --- */
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById(`mode-${mode}`).classList.add('selected');
+            
+            const desc = document.getElementById('mode-desc');
+            if (mode === 'exam') {
+                desc.textContent = "Timed, shuffled questions. Immediate feedback disabled.";
+                isTimeAttack = true;
+            } else {
+                desc.textContent = "Review answers as you go. No strict time limit.";
+                isTimeAttack = false;
+            }
         }
-    }
 
-    function nextQuestion() {
-        if (currentQIndex < questions.length - 1) {
-            currentQIndex++;
-            loadQuestion();
-        } else {
-            endTest();
+        function updateCountDisplay(val) {
+            document.getElementById('q-count-val').innerText = val;
+            totalQuestions = parseInt(val);
         }
-    }
 
-    function toggleNav() {
-        const nav = document.getElementById('nav-overlay');
-        nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
-    }
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-    function endTest() {
-        clearInterval(timerInterval);
-        document.getElementById('game-interface').style.display = 'none';
-        document.getElementById('result-modal').style.display = 'block';
-        
-        const percentage = Math.round((score / questions.length) * 100);
-        document.getElementById('final-score').innerText = percentage;
-        document.getElementById('final-coins').innerText = coins;
-        
-        let msg = "";
-        if (percentage >= 90) msg = "LEGENDARY! 👽";
-        else if (percentage >= 75) msg = "Excellent Job!";
-        else msg = "Keep Studying!";
-        document.getElementById('rank-msg').innerText = msg;
-    }
+        function startGame() {
+            playSound('click');
+            // Prepare questions
+            const shuffledBank = shuffleArray([...questionBank]);
+            gameQuestions = shuffledBank.slice(0, totalQuestions);
+            // Ensure answers are shuffled individually per question
+            gameQuestions.forEach(q => {
+                const correctText = q.a[q.c];
+                q.a = shuffleArray(q.a);
+                q.c = q.a.indexOf(correctText);
+            });
 
-    /* --- DRAGGABLE ALIENS --- */
-    function makeDraggable(elmnt) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        elmnt.onmousedown = dragMouseDown;
+            // Reset state
+            currentQIndex = 0;
+            score = 0;
+            coins = 0;
+            userAnswers = new Array(totalQuestions).fill(null);
+            timeElapsed = 0;
+            
+            // Switch screens
+            document.getElementById('setup-screen').classList.remove('active');
+            document.getElementById('game-screen').classList.add('active');
+            
+            startTimer();
+            renderQuestion();
+            buildNavGrid();
+        }
 
-        function dragMouseDown(e) {
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            const timerBox = document.getElementById('timer-box');
+            const timerFill = document.getElementById('timer-fill');
+            
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                
+                const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+                const s = (timeElapsed % 60).toString().padStart(2, '0');
+                timerBox.innerText = `${m}:${s}`;
+
+                if (isTimeAttack) {
+                    const pct = 100 - (timeElapsed / examDuration * 100);
+                    timerFill.style.width = `${Math.max(0, pct)}%`;
+                    if (pct <= 0) endGame();
+                } else {
+                    timerFill.style.width = '100%'; // Full bar in study mode
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const q = gameQuestions[currentQIndex];
+            const qText = document.getElementById('question-text');
+            const optsDiv = document.getElementById('options-container');
+            
+            document.getElementById('q-progress').innerText = `${currentQIndex + 1}/${totalQuestions}`;
+            qText.innerText = q.q;
+            
+            optsDiv.innerHTML = '';
+            
+            const answered = userAnswers[currentQIndex];
+
+            q.a.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                
+                btn.onclick = () => handleAnswer(idx, btn);
+
+                if (answered !== null) {
+                    btn.style.pointerEvents = 'none';
+                    if (idx === q.c) btn.classList.add('correct');
+                    if (answered === idx && idx !== q.c) btn.classList.add('wrong');
+                }
+
+                optsDiv.appendChild(btn);
+            });
+
+            updateNavGrid();
+            questionStartTime = Date.now();
+        }
+
+        function handleAnswer(selectedIndex, btnElement) {
+            if (userAnswers[currentQIndex] !== null) return;
+
+            const q = gameQuestions[currentQIndex];
+            const isCorrect = selectedIndex === q.c;
+            const timeTaken = (Date.now() - questionStartTime) / 1000;
+
+            userAnswers[currentQIndex] = selectedIndex;
+
+            if (isCorrect) {
+                playSound('correct');
+                score++;
+                let coinBonus = 10;
+                if (timeTaken < 5) {
+                    coinBonus = 20;
+                    spawnHearts(btnElement);
+                }
+                coins += coinBonus;
+                document.getElementById('score').innerText = coins;
+            } else {
+                playSound('wrong');
+            }
+
+            // Re-render to show colors
+            const opts = document.querySelectorAll('.option-btn');
+            opts.forEach((opt, idx) => {
+                opt.style.pointerEvents = 'none';
+                if (idx === q.c) opt.classList.add('correct');
+                if (idx === selectedIndex && !isCorrect) opt.classList.add('wrong');
+            });
+
+            updateNavGrid();
+
+            setTimeout(() => {
+                if (currentQIndex < totalQuestions - 1) {
+                    nextQuestion();
+                } else {
+                    endGame();
+                }
+            }, 1500);
+        }
+
+        function nextQuestion() {
+            if (currentQIndex < totalQuestions - 1) {
+                currentQIndex++;
+                renderQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function spawnHearts(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 5; i++) {
+                const p = document.createElement('span');
+                p.className = 'particle';
+                p.innerText = ['❤️', '✨', '⭐', '💖'][Math.floor(Math.random() * 4)];
+                p.style.left = (centerX + (Math.random() * 60 - 30)) + 'px';
+                p.style.top = centerY + 'px';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        }
+
+        function buildNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < totalQuestions; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                dot.innerText = i + 1;
+                dot.onclick = () => {
+                    if (currentMode === 'study') {
+                        currentQIndex = i;
+                        renderQuestion();
+                    }
+                };
+                grid.appendChild(dot);
+            }
+        }
+
+        function updateNavGrid() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('current', 'answered-correct', 'answered-wrong');
+                if (i === currentQIndex) dot.classList.add('current');
+                if (userAnswers[i] !== null) {
+                    if (userAnswers[i] === gameQuestions[i].c) dot.classList.add('answered-correct');
+                    else dot.classList.add('answered-wrong');
+                }
+            });
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            document.getElementById('game-screen').classList.remove('active');
+            document.getElementById('result-screen').classList.add('active');
+            
+            const correctCount = userAnswers.filter((a, i) => a !== null && a === gameQuestions[i].c).length;
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+            document.getElementById('final-score').innerText = `${percentage}%`;
+            document.getElementById('res-correct').innerText = correctCount;
+            document.getElementById('res-wrong').innerText = totalQuestions - correctCount;
+            document.getElementById('res-coins').innerText = coins;
+            document.getElementById('res-time').innerText = document.getElementById('timer-box').innerText;
+
+            const msg = document.getElementById('feedback-msg');
+            if (percentage >= 90) msg.innerText = "Outstanding! Galactic mastery!";
+            else if (percentage >= 70) msg.innerText = "Great job! Mission Accomplished.";
+            else msg.innerText = "Keep training, cadet.";
+        }
+
+        /* --- ALIEN PET INTERACTIVITY --- */
+        const pet = document.getElementById('alien-pet');
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+
+        pet.addEventListener('mousedown', dragStart);
+        pet.addEventListener('touchstart', dragStart, {passive: false});
+
+        function dragStart(e) {
+            isDragging = true;
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            
+            startX = clientX;
+            startY = clientY;
+            
+            const rect = pet.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchend', dragEnd);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
             e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-            playAlienSound('alien');
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+            
+            pet.style.left = `${initialLeft + dx}px`;
+            pet.style.top = `${initialTop + dy}px`;
+            pet.style.bottom = 'auto';
+            pet.style.right = 'auto';
         }
 
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        function dragEnd() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', dragEnd);
+            document.removeEventListener('touchend', dragEnd);
         }
 
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
+        // Initialize slider
+        updateCountDisplay(50);
 
-    // Init Logic
-    window.onload = function() {
-        generateCopyright();
-        makeDraggable(document.getElementById("alien1"));
-        makeDraggable(document.getElementById("alien2"));
-    };
-
-</script>
+    </script>
 </body>
 </html>
